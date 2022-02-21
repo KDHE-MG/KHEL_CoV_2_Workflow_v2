@@ -10,7 +10,8 @@ from workflow.WF_9_send_fastas.WF_9_send_fastas import run_script_9
 from workflow.epi_isl.epi_isl import run_epi_isl
 from workflow.gisaid.gisaid import run_gisaid
 from workflow.outside_lab.outside_lab import run_outside_lab
-from workflow.plotter.plotter import run_plotter
+# TODO bokeh import not working
+#from workflow.plotter.plotter import run_plotter
 import pyodbc
 import time
 import threading
@@ -102,9 +103,9 @@ def run(run_id="windows"):
                 elif u_input.strip().lower() == '7':
                     run_script_7()
 
-                elif u_input.strip().lower() == 'plotter':
-                    # run script
-                    run_plotter()
+                # elif u_input.strip().lower() == 'plotter':
+                #     # run script
+                #     run_plotter()
                     
                 elif u_input.strip().lower() == 'outside lab':
                     # run script
