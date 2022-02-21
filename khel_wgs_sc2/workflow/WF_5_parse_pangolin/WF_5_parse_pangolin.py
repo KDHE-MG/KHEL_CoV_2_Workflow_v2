@@ -1,12 +1,17 @@
 import time
 from workflow.WF_5_parse_pangolin.WF_5_helpers import WorkflowObj5
 
-def run_script_5(compiled_fasta_path):
+def run_script_5(run_id):
     print("\n================================\nRun Data Import Script\n================================\n\n")
 
     # import relevant data from json file
     data_obj = WorkflowObj5()
     data_obj.get_json()
+
+    # TODO the compiled fasta path will only be dependent on
+    # the run_id.  Otherwise it will always be in the same
+    # network location.  Use private_cache to store base path
+    compiled_fasta_path = "something" + run_id + ".fasta"
 
     if compiled_fasta_path:
         target_folders = compiled_fasta_path.split("/")

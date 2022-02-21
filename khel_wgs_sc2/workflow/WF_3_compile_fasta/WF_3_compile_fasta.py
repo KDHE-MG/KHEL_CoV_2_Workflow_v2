@@ -1,7 +1,7 @@
 import time
 from workflow.WF_3_compile_fasta.WF_3_helpers import WorkflowObj3
 
-def run_script_3():
+def run_script_3(run_id):
     print("\n================================\nall.fasta script\n================================\n\n")
     # import relevant data from json file
     data_obj = WorkflowObj3()
@@ -9,7 +9,7 @@ def run_script_3():
 
 
     # create master FASTA file
-    compiled_fasta_path = data_obj.compile_fasta()
+    data_obj.compile_fasta(run_id)
 
     # create dataframe identifying paths to each fasta file
     data_obj.get_fasta_path_df()
@@ -20,7 +20,5 @@ def run_script_3():
 
     print("\n================================\nSuccess! Script Finished.\n================================\n\n")
     time.sleep(2)
-
-    return compiled_fasta_path
 
     

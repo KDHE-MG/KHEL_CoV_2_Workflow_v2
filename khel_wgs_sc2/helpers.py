@@ -25,15 +25,12 @@ def run_set_2():
     run_script_3()
 
 
-def run(run_id):
+def run(run_id="windows"):
     print("\n ___________________________________________________\n|  _______________________________________________  |\n| |\033[4m    SARS-CoV-2 daily workflow runner script    \033[0m| |\n|___________________________________________________|\n")
     
     ask = True
 
-    # run_script_1 will read in all hsn's from run_data.json file and fetch patient demographics
-    # from oracle database, clean the data, and push it to the SQL database
-    t1 = threading.Thread(target=run_script_1)
-    t2 = threading.Thread(target=run_set_2)
+    
 
     if run_id != "windows":
         try:
@@ -43,6 +40,11 @@ def run(run_id):
             # TODO
             run_script_0(run_id)
 
+            # run_script_1 will read in all hsn's from run_data.json file and fetch patient demographics
+            # from oracle database, clean the data, and push it to the SQL database
+            t1 = threading.Thread(target=run_script_1)
+            t2 = threading.Thread(target=run_set_2, args=run_id)
+
             # start multitasking
             t1.start() # WF 1
             t2.start() # WF 2, 3
@@ -50,16 +52,31 @@ def run(run_id):
             t2.join()
             
             # TODO - access fasta path within run_script 4 and 5 via run_id
-            run_script_4(run_id)
-            run_script_5(run_id)
+            t3 = threading.Thread(target=run_script_4, args=run_id)
+            t4 = threading.Thread(target=run_script_5, args=run_id)
+            t3.start()
+            t4.start()
+            t3.join()
+            t4.join()
             
-            # TODO - fasta file needs to be sent to windows network in the epi drive
-            t1 = threading.Thread(target=run_script_9)
-            t2 = threading.Thread(target=run_gisaid)
-            t1.start()
-            t2.start()
+            t5 = threading.Thread(target=run_script_9, args=run_id)
+            t6 = threading.Thread(target=run_gisaid)
+
+            # TODO this query functions differently and only should retrieve
+            # the epi report for the 32 samples just analyzed.  Not the whole
+            # 64 samples for the day
+            t7 = threading.Thread(target=run_script_6, args=run_id)
+            t5.start()
+
+            # need patient demographics before running gisaid
+            # and epi report scripts
             t1.join()
-            t2.join()
+
+            t6.start()
+            t7.start()
+            t5.join()
+            t6.join()
+            t7.join()
 
         except pyodbc.IntegrityError as i:
             print(i)

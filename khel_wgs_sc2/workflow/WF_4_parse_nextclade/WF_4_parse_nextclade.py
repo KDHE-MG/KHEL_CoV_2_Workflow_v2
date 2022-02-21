@@ -2,11 +2,16 @@ import time
 from workflow.WF_4_parse_nextclade.WF_4_helpers import WorkflowObj4
 
 
-def run_script_4(compiled_fasta_path):
+def run_script_4(run_id):
     print("\n================================\nNextclade Data Import Script\n================================\n\n")
     # import relevant data from json file
     data_obj = WorkflowObj4()
     data_obj.get_json()
+
+    # TODO the compiled fasta path will only be dependent on
+    # the run_id.  Otherwise it will always be in the same
+    # network location.  Use private_cache to store base path
+    compiled_fasta_path = "something" + run_id + ".fasta"
 
     if compiled_fasta_path:
         target_folders = compiled_fasta_path.split("/")

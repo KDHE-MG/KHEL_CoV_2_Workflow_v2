@@ -1,5 +1,5 @@
 from ..workflow_obj import workflow_obj
-from ..reader import get_pandas, read_txt
+from ..reader import get_pandas, read_txt # TODO get_pandas no longer needed
 from ..ui import get_path
 from ..formatter import add_cols, format_hsn_col
 import datetime
@@ -25,19 +25,26 @@ class WorkflowObj1(workflow_obj):
         print(" Done!\n")
 
     def verify_ctrls(self):
-        today = datetime.datetime.today()
-        print("\nVerifying control expiration dates...")
-        if datetime.datetime.strptime(self.pos_ctrl_exp, "%Y-%m-%d") <= today:
-            print("ALERT!! The positive control is out of spec!  Please update in data/private_cache.json")
-            raise ValueError("Positive Control is invalid- already expired")
-        if datetime.datetime.strptime(self.neg_ctrl_exp, "%Y-%m-%d") <= today:
-            print("ALERT!! The negative control is out of spec!  Please update in data/private_cache.json")
-            raise ValueError("Positive Control is invalid- already expired")
-        print(" Done!\n")
+        if self.include_controls:
+            today = datetime.datetime.today()
+            print("\nVerifying control expiration dates...")
+            if datetime.datetime.strptime(self.pos_ctrl_exp, "%Y-%m-%d") <= today:
+                print("ALERT!! The positive control is out of spec!  Please update in data/private_cache.json")
+                raise ValueError("Positive Control is invalid- already expired")
+            if datetime.datetime.strptime(self.neg_ctrl_exp, "%Y-%m-%d") <= today:
+                print("ALERT!! The negative control is out of spec!  Please update in data/private_cache.json")
+                raise ValueError("Positive Control is invalid- already expired")
+            print(" Done!\n")
+        else:
+            pass
 
 
     def get_initial_demo_df(self):
         print("\nUse the following window to open the Sample ID Upload worksheet...")
+        
+        # TODO use run_data keys => list of HSNs, then make df from that
+        # column name = 'Sample ID'
+
         self.demo_path = get_path()
         self.df_right = get_pandas(self.demo_path, 'WF_1', 'run order', ',')
         self.df_right = self.df_right.applymap(str)

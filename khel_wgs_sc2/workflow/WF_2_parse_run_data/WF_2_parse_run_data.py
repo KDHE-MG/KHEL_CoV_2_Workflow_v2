@@ -12,7 +12,7 @@ def run_script_2():
 
     # get information from user
     # READER
-    data_obj.get_info_from_user()
+    data_obj.get_info_from_json()
     
     # format the data, create two versions of dataframe
     # contained in data_obj, qc df and results df

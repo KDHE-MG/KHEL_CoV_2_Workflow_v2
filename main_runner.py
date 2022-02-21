@@ -15,6 +15,3 @@ if __name__ == "__main__":
         time.sleep(20)
     print("\nExiting caller script")
     time.sleep(1)
-
-
-    print("run id: " + str(run_id))
