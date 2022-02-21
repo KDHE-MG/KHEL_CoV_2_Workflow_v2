@@ -131,6 +131,7 @@ dmypy.json
 
 # Extras
 data/private_cache.json
+data/run_data.json
 khel_wgs_sc2/__pycache__/
 khel_wgs_sc2/workflow/__pycache__/
 khel_wgs_sc2/workflow/web_scraper/
