@@ -1,8 +1,13 @@
 import sys
+import time
 from helpers import run
 
 if __name__ == "__main__":
-    run_id = str(sys.argv[1])
-    # call to main script
-    run(run_id)
+    try:
+        run_id = str(sys.argv[1])
+        # call to main script
+        run(run_id)
+    except Exception as e:
+        print(e)
+        time.sleep(500)
 
