@@ -1,7 +1,8 @@
 from ..workflow_obj import workflow_obj
 from workflow.ClearLabsScrapper import ClearLabsApi
 from logger import Script_Logger
-
+import json
+import os
 
 
 class WorkflowObj0(workflow_obj):
@@ -14,9 +15,11 @@ class WorkflowObj0(workflow_obj):
         super().get_json(0)
 
     def scrape(self, runIds):
-            
+        #create folder for fasta files
+        os.mkdir(self.fasta_file_download_path+"\\"+runIds)
+
         #create webdriver object
-        self.scrapper_obj = ClearLabsApi(self.chrome_driver_path, self.fasta_file_download_path)
+        self.scrapper_obj = ClearLabsApi( self.fasta_file_download_path+"\\"+runIds)
 
         #Log into ClearLabs
         self.scrapper_obj.login(self.clearlabs_url,self.cl_user,self.cl_pwd)

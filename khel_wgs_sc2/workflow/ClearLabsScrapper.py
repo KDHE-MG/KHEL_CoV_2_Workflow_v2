@@ -13,7 +13,7 @@ import sys
 
 class ClearLabsApi():
 
-	def __init__(self, ChromDriver_Path,DLoad_Path):
+	def __init__(self, DLoad_Path):
 		opt = Options()
 		opt.add_experimental_option("prefs", {
 		  "download.default_directory": DLoad_Path,
@@ -24,7 +24,7 @@ class ClearLabsApi():
 
 		opt.headless= True
 
-		ChromeDriverPathSer=Service(ChromDriver_Path)
+		ChromeDriverPathSer=Service("/resources/chromedriver")
 
 
 		self.driver = webdriver.Chrome(service=ChromeDriverPathSer,options=opt)
@@ -48,17 +48,17 @@ class ClearLabsApi():
 
 		run_sample_info={}
 
-		for run in runIDs:
+		#for run in runIDs:
 			
-			self.driver.find_element(By.XPATH,'//h2[contains(.,"'+run+'")]').click()
+		self.driver.find_element(By.XPATH,'//h2[contains(.,"'+runIDs+'")]').click()
 			
-			time.sleep(2)
+		time.sleep(2)
 
-			run_sample_info[run]=parse_run_data(self.driver.page_source)
+		run_sample_info[runIDs]=parse_run_data(self.driver.page_source)
 
-			self.download_fasta()
+		self.download_fasta()
 
-			self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click()
+		self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click()
 			
 
 		return run_sample_info

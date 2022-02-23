@@ -19,7 +19,7 @@ def run_script_0(run_ids):
     
 
     #save run info from var into json file, with name Runid_RunID.json
-    with open (str(data_obj.run_data_dump_path)+"RunDump_"+"_".join(run_ids)+".json","w") as j_dump:
+    with open ("data/run_data.json","w") as j_dump:
         j_dump.write(run_info)
 
 	
