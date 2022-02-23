@@ -18,13 +18,14 @@ class WorkflowObj3(workflow_obj):
     def compile_fasta(self, run_id):
         print("Use the following dialog box to select the folder with all FASTA files in the Run Data folder")
         
-        # TODO the path to the file will be dependent on the run_id,
+        # the path to the file will be dependent on the run_id,
         # and constant otherwise.  get_path_folder and replace_shortcut
         # not needed
-        #self.path = ""
-        
-        self.path = get_path_folder()
-        self.path = replace_shortcut(self.path)
+        machine_num = run_id[4:6]
+        run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
+        day_run_num = int(run_id[-2:])
+        self.path =  self.fasta_file_path + run_date + "." + str(machine_num) + "." + str(day_run_num) + "/FAST files"
+
         # make new folder/file to save to
         splt = self.path.split("/")
         if splt[-1] != "FAST files":
