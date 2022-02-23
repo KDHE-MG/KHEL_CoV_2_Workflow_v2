@@ -9,7 +9,7 @@ def run_script_0(run_ids):
     print("\n================================\nScrap Web Script\n================================\n\n")
     
     #creating WorkflowObj
-    data_obj = WorkflowObj0
+    data_obj = WorkflowObj0()
     #getting info
     data_obj.get_json()
 
