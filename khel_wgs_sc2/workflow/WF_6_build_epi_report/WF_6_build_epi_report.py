@@ -1,7 +1,8 @@
 from workflow.WF_6_build_epi_report.WF_6_build_epi_report_helpers import WorkflowObj6
 import time
+import datetime
 
-def run_script_6():
+def run_script_6(run_id):
     # Print welcome message
     print("\n================================\nReport Generator\n================================\n\n")
     
@@ -10,7 +11,11 @@ def run_script_6():
     data_obj.get_json()
 
     # open sql database --> pandas dataframe
-    data_obj.get_ui()
+    if run_id == "windows":
+        data_obj.get_ui()
+    else:
+        run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%Y-%m-%d")
+        data_obj.get_report(run_date)
 
     # get user input (should we format df by facility or date?)
     data_obj.get_df()

@@ -14,6 +14,27 @@ class WorkflowObj6(workflow_obj):
         super().get_json(6)
 
 
+    def get_report(self, run_date):
+        # this is essentially the same as choice 'd' from
+        # get_ui() below.  Except without user input, for
+        # more automation
+        date_start = run_date
+        date_end = date_start
+        self.read_date_query_tbl1 = self.read_date_query_tbl1.replace("{start}", date_start)
+        self.query = self.read_date_query_tbl1.replace("{end}", date_end)
+        self.query = self.query.replace("{percent_cvg_cutoff}", str(self.percent_cvg_cutoff))
+        if not self.reportable:
+            self.query = self.query.replace("{reportable}", "in (0,1)")
+            pass
+        else:
+            self.query = self.query.replace("{reportable}", " = " + str(self.reportable))
+        self.bad_query = self.read_bad_date_query_tbl1.replace("{start}", date_start)
+        self.bad_query = self.bad_query.replace("{end}", date_end)
+        self.bad_query = self.bad_query.replace("{percent_cvg_cutoff}", str(self.percent_cvg_cutoff))
+        # we want the bad report as well
+        self.bad = True
+
+
     def get_ui(self):
         self.bad = False
         if not self.reportable:

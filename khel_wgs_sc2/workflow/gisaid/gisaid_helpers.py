@@ -57,7 +57,8 @@ class gisaid_obj(workflow_obj):
     def get_gisaid_df(self):
         # use the hsn list from above to get all hsns into single dataframe
         self.gisaid_start = self.db_handler.sub_lst_read(query=self.read_query_tbl1, lst=self.hsn_lst)
-        self.user = input("\nPlease input the user for this report\n--> ")
+        # self.user now stored in the private_cache.json file
+        #self.user = input("\nPlease input the user for this report\n--> ")
         self.hsn_dict = {'hsn':[], 'gisaid':[]}
 
     def compile_fasta(self):

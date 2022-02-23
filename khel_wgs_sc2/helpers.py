@@ -15,20 +15,20 @@ from workflow.outside_lab.outside_lab import run_outside_lab
 import pyodbc
 import time
 import threading
+import datetime
+
 
 def run_set_2():
     # run_script_2 will read in all run_stats from run_data.json file, and push the data to the
     # SQL database.  Requires run_script_1 to run first
-    # TODO store day in json file within script 2?
     run_script_2()
 
     # run_script_3 will take all the FASTA files and combine them into one
     run_script_3()
 
 
-def run(run_id="windows"):
+def run(run_id):
     print("\n ___________________________________________________\n|  _______________________________________________  |\n| |\033[4m    SARS-CoV-2 daily workflow runner script    \033[0m| |\n|___________________________________________________|\n")
-    
     ask = True
 
     
@@ -38,13 +38,12 @@ def run(run_id="windows"):
             # run_script_0 will perform web-scraping and save information in run_data.json file
             # run_script_0 will also download the FASTA/Q files for use later.  It MUST finish execution
             # before anything else starts
-            # TODO
             run_script_0(run_id)
 
             # run_script_1 will read in all hsn's from run_data.json file and fetch patient demographics
             # from oracle database, clean the data, and push it to the SQL database
             t1 = threading.Thread(target=run_script_1)
-            t2 = threading.Thread(target=run_set_2, args=run_id)
+            t2 = threading.Thread(target=run_set_2)
 
             # start multitasking
             t1.start() # WF 1
@@ -60,12 +59,12 @@ def run(run_id="windows"):
             t3.join()
             t4.join()
             
-            t5 = threading.Thread(target=run_script_9, args=run_id)
+            run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m/%d/%Y")
+            t5 = threading.Thread(target=run_script_9, args=run_date)
             t6 = threading.Thread(target=run_gisaid)
 
-            # TODO this query functions differently and only should retrieve
-            # the epi report for the 32 samples just analyzed.  Not the whole
-            # 64 samples for the day
+            # TODO we can have the script grab all 64 samples for the day
+            # since it will just create 2 files, one for each run
             t7 = threading.Thread(target=run_script_6, args=run_id)
             t5.start()
 
@@ -98,7 +97,7 @@ def run(run_id="windows"):
             try:
                     
                 if u_input.strip().lower() == '6':
-                    run_script_6()
+                    run_script_6(run_id)
                     
                 elif u_input.strip().lower() == '7':
                     run_script_7()

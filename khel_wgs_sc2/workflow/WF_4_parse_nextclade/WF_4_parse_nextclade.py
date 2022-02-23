@@ -1,4 +1,5 @@
 import time
+import datetime
 from workflow.WF_4_parse_nextclade.WF_4_helpers import WorkflowObj4
 
 
@@ -8,10 +9,14 @@ def run_script_4(run_id):
     data_obj = WorkflowObj4()
     data_obj.get_json()
 
-    # TODO the compiled fasta path will only be dependent on
+    # the compiled fasta path will only be dependent on
     # the run_id.  Otherwise it will always be in the same
     # network location.  Use private_cache to store base path
-    compiled_fasta_path = "something" + run_id + ".fasta"
+    machine_num = run_id[4:6]
+    run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
+    day_run_num = int(run_id[-2:])
+    file_name = "all_" + run_date + "_" + str(machine_num) + ".fasta"
+    compiled_fasta_path =  data_obj.fasta_file_path + run_date + "." + str(machine_num) + "." + str(day_run_num) + "/"+ file_name
 
     if compiled_fasta_path:
         target_folders = compiled_fasta_path.split("/")
