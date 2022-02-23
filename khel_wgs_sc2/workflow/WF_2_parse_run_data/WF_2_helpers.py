@@ -14,11 +14,11 @@ class WorkflowObj2(workflow_obj):
         super().get_json(2)
 
 
-    def get_info_from_json(self):
+    def get_info_from_json(self, runId):
         # TODO read in all data from json into format seen below
         # hint - check ui for data structure example
         run_data, self.machine_num, self.wgs_run_date, \
-            self.day_run_num, self.platform = get_run_data()
+            self.day_run_num, self.platform = get_run_data(runId)
 
         if self.include_controls:
             neg = False

@@ -1,7 +1,7 @@
 import time
 from workflow.WF_2_parse_run_data.WF_2_helpers import WorkflowObj2
 
-def run_script_2():
+def run_script_2(runId):
     print("\n================================\nRun Data Import Script\n================================\n\n")
 
     # import relevant data from json file
@@ -12,7 +12,7 @@ def run_script_2():
 
     # get information from user
     # READER
-    data_obj.get_info_from_json()
+    data_obj.get_info_from_json(runId)
     
     # format the data, create two versions of dataframe
     # contained in data_obj, qc df and results df
