@@ -16,12 +16,13 @@ class WorkflowObj3(workflow_obj):
         super().get_json(3)
 
     def compile_fasta(self, run_id):
-        print("Use the following dialog box to select the folder with all FASTA files in the Run Data folder")
+        #print("Use the following dialog box to select the folder with all FASTA files in the Run Data folder")
         
         # TODO the path to the file will be dependent on the run_id,
         # and constant otherwise.  get_path_folder and replace_shortcut
         # not needed
         #self.path = ""
+        
         
         self.path = get_path_folder()
         self.path = replace_shortcut(self.path)
