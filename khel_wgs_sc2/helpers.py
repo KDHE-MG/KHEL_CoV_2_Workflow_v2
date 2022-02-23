@@ -1,4 +1,5 @@
 from workflow.WF_0_scrape_web.WF_0_scrape_web import run_script_0
+from workflow.WF_0_5_extract.WF_0_5_extract import run_script_0_5
 from workflow.WF_1_import_demos.WF_1_import_demos import run_script_1
 from workflow.WF_2_parse_run_data.WF_2_parse_run_data import run_script_2
 from workflow.WF_3_compile_fasta.WF_3_compile_fasta import run_script_3
@@ -18,13 +19,22 @@ import threading
 import datetime
 
 
-def run_set_2():
+def run_set_1(run_id):
+    # run_script_1 will read in all hsn's from run_data.json file and fetch patient demographics
+    # from oracle database, clean the data, and push it to the SQL database
+    run_script_1()
+
     # run_script_2 will read in all run_stats from run_data.json file, and push the data to the
     # SQL database.  Requires run_script_1 to run first
-    run_script_2()
+    run_script_2(run_id)
+
+
+def run_set_2(run_id):
+    # run_script_0_5 will extract fasta files downloaded in WF_0
+    run_script_0_5(run_id)
 
     # run_script_3 will take all the FASTA files and combine them into one
-    run_script_3()
+    run_script_3(run_id)
 
 
 def run(run_id):
@@ -40,15 +50,15 @@ def run(run_id):
             # before anything else starts
             run_script_0(run_id)
 
-            # run_script_1 will read in all hsn's from run_data.json file and fetch patient demographics
-            # from oracle database, clean the data, and push it to the SQL database
-            t1 = threading.Thread(target=run_script_1)
-            t2 = threading.Thread(target=run_set_2)
+            t1 = threading.Thread(target=run_set_1, args=run_id)
+            t2 = threading.Thread(target=run_set_2, args=run_id)
 
             # start multitasking
-            t1.start() # WF 1
-            t2.start() # WF 2, 3
+            t1.start() # WF 1, 2
+            t2.start() # WF 0_5, 3
+
             # WF 2 and 3 must finish before 4 and 5 start
+            t1.join()
             t2.join()
             
             # TODO - access fasta path within run_script 4 and 5 via run_id
@@ -63,14 +73,10 @@ def run(run_id):
             t5 = threading.Thread(target=run_script_9, args=run_date)
             t6 = threading.Thread(target=run_gisaid)
 
-            # TODO we can have the script grab all 64 samples for the day
+            # we can have the script grab all 64 samples for the day
             # since it will just create 2 files, one for each run
             t7 = threading.Thread(target=run_script_6, args=run_id)
             t5.start()
-
-            # need patient demographics before running gisaid
-            # and epi report scripts
-            t1.join()
 
             t6.start()
             t7.start()
