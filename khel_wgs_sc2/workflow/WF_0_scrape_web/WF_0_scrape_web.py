@@ -10,6 +10,7 @@ def run_script_0(run_ids):
     
     #creating WorkflowObj
     data_obj = WorkflowObj0
+    #getting info
     data_obj.get_json()
 
     #save run info into var, while downloading fasta files for each run id supplied
@@ -24,3 +25,7 @@ def run_script_0(run_ids):
 	
 	print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
     time.sleep(2)
+#return run file location
+    return str(data_obj.run_data_dump_path)+"RunDump_"+"_".join(run_ids)+".json"
+
+ 
