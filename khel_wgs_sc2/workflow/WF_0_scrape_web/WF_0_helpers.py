@@ -24,7 +24,7 @@ class WorkflowObj0(workflow_obj):
         #Log into ClearLabs
         self.scrapper_obj.login(self.clearlabs_url,self.cl_user,self.cl_pwd)
         #extract run info and download corresponding fastas files
-        run_dump= json.dumps(self.scrapper_obj.find_runs(runIds))
+        run_dump= self.scrapper_obj.find_runs(runIds)
 
         #closing web browser
         self.scrapper_obj.driver.close()
