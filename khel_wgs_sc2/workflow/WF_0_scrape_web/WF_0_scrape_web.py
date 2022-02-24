@@ -23,9 +23,9 @@ def run_script_0(run_ids):
         j_dump.write(run_info)
 
 	
-	print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
-    time.sleep(2)
+    print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
+
 #return run file location
-    return str(data_obj.run_data_dump_path)+"RunDump_"+"_".join(run_ids)+".json"
+ 
 
  

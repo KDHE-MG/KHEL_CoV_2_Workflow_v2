@@ -23,8 +23,9 @@ class ClearLabsApi():
 		  "safebrowsing.enabled": False})
 
 		opt.headless= True
-
-		ChromeDriverPathSer=Service("/resources/chromedriver")
+#chrome must be install on device runing this
+#we should inculde the chrome binarys into resourses
+		ChromeDriverPathSer=Service("/home/ks_khel/Documents/GitHub/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
 
 
 		self.driver = webdriver.Chrome(service=ChromeDriverPathSer,options=opt)
@@ -71,11 +72,14 @@ class ClearLabsApi():
 
 		self.driver.find_element(By.ID,"cl-button-menu-toggle-download").click() # clikc on download
 
-		self.driver.find_element(By.XPATH,"//div[contains(.,'Download All FASTA')]") 
+		#self.driver.find_element(By.XPATH,"//div[contains(.,'Download All FASTA and FASTQ files')]") 
+		#selecting download all fasta and fastaq files
 
-		self.driver.find_element(By.XPATH,"//div[contains(@class,'sc-6wkgny-0 sc-1n4kxe3-1 iwyGgY kBSIHC')]").click() #clicks the download all fasta button but not great becuase only finds the first element not specfifc enough should be bulit to be more robust
+		self.driver.find_element(By.CSS_SELECTOR,"div.sc-1n4kxe3-1:nth-child(3)").click() 
 
-		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
+		s#self.driver.find_element(By.XPATH,"//div[contains(@class,'sc-6wkgny-0 sc-1n4kxe3-1 iwyGgY kBSIHC')]").click() #clicks the download all fasta button but not great becuase only finds the first element not specfifc enough should be bulit to be more robust
+
+		#self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
 		#sleep can be removed but waiting for file to be downloaded 
 		time.sleep(5)
 		
