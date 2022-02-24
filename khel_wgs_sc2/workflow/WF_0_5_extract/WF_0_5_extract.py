@@ -1,7 +1,8 @@
 from workflow.WF_0_5_extract.WF_0_5_helpers import Workflow0_5
-import time
 
-def run_scrip_0_5(runID):
+
+
+def run_script_0_5(runID):
     
     print("\n================================\nExtract Fasta Script\n================================\n\n")
     
@@ -15,4 +16,3 @@ def run_scrip_0_5(runID):
 
 
     print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
-    time.sleep(2)

@@ -26,7 +26,7 @@ class WorkflowObj3(workflow_obj):
         run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
         day_run_num = int(run_id[-2:])
 
-        self.path =  self.fasta_download_file_path + "\\"+run_id + "\FAST files"
+        self.path =  self.fasta_download_file_path + "/"+run_id + "\FAST files"
 
         # make new folder/file to save to
         splt = self.path.split("/")

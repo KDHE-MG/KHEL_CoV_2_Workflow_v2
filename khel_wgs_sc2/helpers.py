@@ -22,11 +22,11 @@ import datetime
 def run_set_1(run_id):
     # run_script_1 will read in all hsn's from run_data.json file and fetch patient demographics
     # from oracle database, clean the data, and push it to the SQL database
-    run_script_1()
+    run_script_1(run_id)
 
     # run_script_2 will read in all run_stats from run_data.json file, and push the data to the
     # SQL database.  Requires run_script_1 to run first
-    run_script_2(run_id)
+    run_script_2(run_id) #needs run to open json and open run info
 
 
 def run_set_2(run_id):

@@ -1,7 +1,7 @@
 import time
 from workflow.WF_1_import_demos.WF_1_helpers import WorkflowObj1
 
-def run_script_1():
+def run_script_1(runID):
     print("\n================================\nDemographics Import Script\n================================\n\n")
 
     # import relevant data from json file
@@ -15,7 +15,7 @@ def run_script_1():
 
     # open demo path --> pandas dataframe
     # READER
-    data_obj.get_initial_demo_df()
+    data_obj.get_initial_demo_df(runID)
 
     # clean up data
     # FORMATTER
