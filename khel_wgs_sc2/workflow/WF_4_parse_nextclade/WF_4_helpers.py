@@ -2,19 +2,24 @@ from ..workflow_obj import workflow_obj
 from ..reader import get_pandas
 from ..ui import get_path
 from ..formatter import add_cols, remove_blanks, remove_pools, merge_dataframes
+from logger import Script_Logger
 
 class WorkflowObj4(workflow_obj):
     # constructor
     def __init__(self):
         self.id = "WF_4"
-
+        self.log = Script_Logger("WF_4_Parse_Nexcalde")
+        self.log.start_log("Initalization of WF4")
     # methods
     def get_json(self):
         super().get_json(4)
+        self.log.write_log("get_json","Argument Passed 4")
 
     def get_nextclade_dfs(self, nc_path=False):
         # open nextclade path --> pandas dataframe
+        self.log.write_log("get_nextcalde_dfs","Starting function")
         if not nc_path:
+            self.log.write_log("get_nextclade_dfs","Nextcalde Path Empty")
             print("\nUse the following window to open the nextclade results workbook...")
             nc_path = get_path()
         splt = nc_path.split("/")
@@ -62,12 +67,15 @@ class WorkflowObj4(workflow_obj):
         df.fillna("", inplace=True)
         self.df_qc = df[self.nc_qc_cols_lst]
         self.df_results = df[self.nc_results_cols_lst]
+        self.log.write_log("get_nextcalde_dfs","complete")
 
     def database_push(self):
+        self.log.write_log("database_push","Attemping to connect to db")
         # attempt to connect to database
         super().setup_db()
+        self.log.write_log("database_push","connect to db successful")
         df_qc_update_lst = self.df_qc.values.astype(str).tolist()
-        print("Pushing information to Run Stats table...")
+        self.log.write_log("database_push","Pushing information to Run Stats table")
         self.db_handler.lst_ptr_push(df_lst=df_qc_update_lst, query=self.write_query_tbl2)
         all_time_df_qc = self.db_handler.sub_read(query=self.read_query_tbl2)
         
@@ -81,57 +89,65 @@ class WorkflowObj4(workflow_obj):
 
         df_results_final_lst = df_results_final.values.astype(str).tolist()
         if len(df_results_final_lst) == 0:
+            self.log.write_warning("database_push","Nextclade data from this run has likely already been pushed to the database!")
             raise ValueError("\n-------------------------------------------------------------------------------------------------------------------\
                 \nNextclade data from this run has likely already been pushed to the database!\
                 \n-------------------------------------------------------------------------------------------------------------------")
-        print("Updating rows in the results table...")
+        self.log.write_log("database_push","Updating rows in the results table")
         self.db_handler.lst_ptr_push(df_lst=df_results_final_lst, query=self.write_query_tbl1)
-
+        self.log.write_log("database_push","Completed")
 
     def get_fasta_path(self):
+        self.log.write_log("get_fasta_path","Starting")
         print("\nUse the following window to open the fasta file you'd like to send for nextclade analysis...")
+        self.log.write_log("get_fasta_path","Completed")
         return get_path()
 
 
     def send_fasta(self, compiled_fasta_path):
+        self.log.write_log("send_fasta","Starting")
+        
         # store the fasta file name
         folders = compiled_fasta_path.split("/")
         self.fasta_filename = folders[-1]
-        print("\nSetting up TCP connection to server")
+        self.log.write_log("send_fasta","Setting up TCP connection to server")
         # establish connection to server
         super().setup_ssh()
-        print(" Connection established!")
+        self.log.write_log("send_fasta"," Connection established!")
         # send the fasta file to the server, at the specified location
-        print("\nSending fasta file to server...")
+        self.log.write_log("send_fasta","Sending fasta file to server...")
         self.ssh_handler.ssh_send_file(compiled_fasta_path, "nextclade")
-        print(" File sent successfully!")
+        elf.log.write_log("send_fasta"," File sent successfully!")
 
 
     def run_nextclade(self):
+        self.log.write_log("run_nextclade","starting")
         # connection to the server has already been established
         # check for updates and update if needed
         exec_cmd = "cd nextclade-master && ./nextclade --in-order --input-fasta=data/sars-cov-2/input/" + self.fasta_filename + \
 " --input-dataset=data/sars-cov-2 --output-tsv=output/nextclade.tsv --output-dir=output/ --output-basename=nextclade"
 
-        print("\nAttempting to run the Nextclade application, please wait.\n")
+        self.log.write_log("run_nextclade","Attempting to run the Nextclade application, please wait.\n")
         # execute command
         stdin, stdout, stderr = self.ssh_handler.ssh_exec(exec_cmd)
         lines = stdout.readlines()
         errors = stderr.readlines()
         for e in errors:
+            self.log.write_warning("run_nextclade",e[:-1])
             print(e[:-1])
         for l in lines:
+            self.log.write_log("run_nextclade",l[:-1])
             print(l[:-1])
-        print(" Nextclade analysis finished!")
+        self.log.write_log("run_nextclade"," Nextclade analysis finished!")
 
     
     def receive_nextclade_df(self, dest):
-        print("\nPulling nextclade results file from server...")
+        self.log.write_log("receive_nextclade_df","Pulling nextclade results file from server...")
         self.ssh_handler.ssh_receive_file(dest + "/nextclade.tsv", "nextclade")
-        print(" Nextclade results file successfully received!")
+        self.log.write_log("receive_nextclade_df"," Nextclade results file successfully received!")
 
 
     def clean_connections(self):
-        print("\nSigning out of server...")
+        self.log.write_log("clean_connections","Signing out of server...")
         self.ssh_handler.close_connections()
-        print(" Sign out successful\n")
+        self.log.write_log("clean_connections"," Sign out successful\n")

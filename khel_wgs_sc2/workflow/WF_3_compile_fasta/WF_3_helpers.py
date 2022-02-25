@@ -4,18 +4,23 @@ from ..formatter import add_cols, remove_pools, remove_blanks, replace_shortcut
 import os
 import pandas as pd
 import datetime
+from logger import Script_Logger
 
 
 class WorkflowObj3(workflow_obj):
     # constructor
     def __init__(self):
         self.id = "WF_3"
+        self.log = Script_Logger("WF_3_Compile_Fasta")
+        self.log.start_log("Initalization of WF3")
     
     # methods
     def get_json(self):
         super().get_json(3)
+        self.log.write_log("get_json","Argument passed 3")
 
     def compile_fasta(self, run_id):
+        self.log.write_log("compile_fasta","Starting")
         #print("Use the following dialog box to select the folder with all FASTA files in the Run Data folder")
         
         # the path to the file will be dependent on the run_id,
@@ -26,11 +31,12 @@ class WorkflowObj3(workflow_obj):
         run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
         day_run_num = int(run_id[-2:])
 
-        self.path =  self.fasta_download_file_path + "/"+run_id + "\FAST files"
+        self.path =  self.fasta_download_file_path + "/"+run_id + "/FAST files"
 
         # make new folder/file to save to
         splt = self.path.split("/")
         if splt[-1] != "FAST files":
+            self.log.write_warning("complie_fasta","No Fasta Files Folder found")
             raise ValueError("\n-------------------------------------------------------------------------------------------------------------------\
                 \nThe selected folder is unexpected!  Select a folder with the name 'FAST files'\
                 \n-------------------------------------------------------------------------------------------------------------------")
@@ -51,6 +57,7 @@ class WorkflowObj3(workflow_obj):
         self.seqName_lst = []
         s = ""
         ctr = 0
+        self.log.write_log("complie_fasta","begining to complie fasta")
         f = open(path_write, "w")
         for root, dirs, files in os.walk(self.path):
             for file in files:
@@ -73,6 +80,7 @@ class WorkflowObj3(workflow_obj):
             return ""
 
     def get_fasta_path_df(self):
+        self.log.write_log("get_fasta_path_df","Starting")
         # transform dictionary of hsn/path into dataframe
         self.df = pd.DataFrame(self.seqName_lst, columns=['seqName'])
         # remove pooled samples from dataframe
@@ -80,7 +88,7 @@ class WorkflowObj3(workflow_obj):
         
         # remove any blanks from the run
         self.df = remove_blanks(self.df, 'seqName')
-
+        self.log.write_log("get_fasta_path_df","droping controls")
         #drop controls from index
         if self.include_controls:
             neg = False
@@ -100,7 +108,7 @@ class WorkflowObj3(workflow_obj):
                     break
             #self.df.drop([pos_idx, neg_idx], inplace=True)
             self.df.drop(to_drop, inplace=True)
-
+        self.log.write_log("get_fasta_path","adding columns")
         # add columns
         add_cols(obj=self, \
             df=self.df, \
@@ -112,6 +120,7 @@ class WorkflowObj3(workflow_obj):
 
 
     def database_push(self):
+        self.log.write_log("database_push","connecting to db")
         # attempt to connect to database
         super().setup_db()
         df_lst = self.df.values.astype(str).tolist()

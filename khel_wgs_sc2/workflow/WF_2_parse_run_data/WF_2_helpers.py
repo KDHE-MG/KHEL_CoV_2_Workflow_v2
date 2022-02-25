@@ -2,23 +2,30 @@ from ..workflow_obj import workflow_obj
 from ..ui import get_run_data
 from ..formatter import add_cols, remove_blanks, remove_pools
 import pandas as pd
+from logger import Script_Logger
 
 
 class WorkflowObj2(workflow_obj):
     # constructor
     def __init__(self):
         self.id = "WF_2"
+        self.log = Script_Logger("WF_2_Parse_Run_Data")
+        self.log.start_log("Initialization of WF_2_sucessful")
 
     # methods
     def get_json(self):
         super().get_json(2)
+        self.log.write_log("get_json","Argument passed was 2")
 
 
     def get_info_from_json(self, runId):
         # TODO read in all data from json into format seen below
         # hint - check ui for data structure example
+        self.log.write_log("get_info_from_json","runing")
+
         run_data, self.machine_num, self.wgs_run_date, \
             self.day_run_num, self.platform = get_run_data(runId)
+        self.log.write_log("get_info_from_json","get_run_data completed, now cleaing up controls")
 
         if self.include_controls:
             neg = False
@@ -37,15 +44,18 @@ class WorkflowObj2(workflow_obj):
                     pos = True
                 if neg and pos:
                     break
-        
+        self.log.write_log("get_info_from_json"," creating df for qc/research table")
         # create dataframe for QC/Research table
         self.df_qc = pd.DataFrame.from_dict(run_data)
 
 
     def format_dataframe(self):
+        self.log.write_log("format_dataframe","runing")
+
         self.df_qc = remove_pools(self.df_qc, 'hsn')
         self.df_qc = remove_blanks(self.df_qc, 'hsn')
         # add columns
+        self.log.write_log("format_dataframe","adding columns")
 
         self.df_qc = add_cols(obj=self, \
             df=self.df_qc, \
@@ -63,6 +73,7 @@ class WorkflowObj2(workflow_obj):
             self.df_qc['neg_pass'] = 0
             self.df_qc['reportable'] = 0
         
+        self.log.write_log("format_dataframe","creating results df")
         # create dataframe for results table
         self.df_results = self.df_qc.copy()
         # sort/remove columns to match table 1
@@ -76,10 +87,11 @@ class WorkflowObj2(workflow_obj):
 
 
     def database_push(self):
+        self.log.write_log("database_push","starting")
         super().setup_db()
         # query for updating results table (only update table1 if qc is better)
         # update table 2 regardless
-        
+        self.log.write_log("database_push","setup_db has completed")
         df_results_lst = self.df_results.values.astype(str).tolist()
         self.write_query_tbl1 = self.write_query_tbl1.replace("{avg_depth_cutoff}", str(self.avg_depth_cutoff))
         self.write_query_tbl1 = self.write_query_tbl1.replace("{percent_cvg_cutoff}", str(self.percent_cvg_cutoff))
@@ -91,8 +103,10 @@ class WorkflowObj2(workflow_obj):
         df_qc_cols_query = "(" + ", ".join(self.df_qc_cols) + ")"
         try:
             self.db_handler.lst_push(df_lst=df_qc_lst, df_cols=df_qc_cols_query)
+            self.log.write_log("database_push","db lst push compelte")
         except Exception as e:
-            print(e)
+            self.log.write_warning("database_push",e)
+            #print(e)
             raise ValueError("\n-------------------------------------------------------------------------------------------------------------------\
                 \nEntry already exists in the database! The clearlabs data for this run has likely already been added to the database\
                 \n-------------------------------------------------------------------------------------------------------------------")

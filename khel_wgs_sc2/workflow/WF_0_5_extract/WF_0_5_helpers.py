@@ -17,14 +17,14 @@ class Workflow0_5(workflow_obj):
     def extract(self,runId):
         
         self.log.write_log("extract","Run ID passed "+runId)
-        self.log.write_log("extract","Path to file is "+self.fasta_file_download_path+"\\"+runId)
+        self.log.write_log("extract","Path to file is "+self.fasta_file_download_path+"/"+runId)
 
-        fastas= tarfile.open(self.fast_file_download_path+"\\"+runId+"\\"+runId+".fastas.tar")
+        fastas= tarfile.open(self.fast_file_download_path+"/"+runId+"/"+runId+".fastas.tar")
 
         self.log.write_log("extract","Making Fasta File directory")
-        os.mkdir(self.fast_file_download_path+"\\"+runId+"\FAST files")
+        os.mkdir(self.fast_file_download_path+"/"+runId+"/FAST files")
         
         self.log.write_log("extract","Performing Extraction")
-        fastas.extractall(self.fast_file_download_path+"\\"+runId+"\FAST files")
+        fastas.extractall(self.fast_file_download_path+"/"+runId+"/FAST files")
 
         fastas.close()

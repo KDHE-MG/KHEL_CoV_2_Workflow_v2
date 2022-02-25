@@ -22,11 +22,11 @@ class WorkflowObj0(workflow_obj):
         self.log.write_log("Scrape","Was run with the following runID passed "+runIds)
 
         self.log.write_log("Scrape- MkDIR","Creating new folder to store fasta and fasta q files with the following path "+self.fasta_file_download_path+"\\"+runIds)
-        os.mkdir(self.fasta_file_download_path+"\\"+runIds)
+        os.mkdir(self.fasta_file_download_path+"/"+runIds)
 
         #create webdriver object
         self.log.write_log("Scrape - Scrapper Obj","Initializing Scrapping Object")
-        self.scrapper_obj = ClearLabsApi( self.fasta_file_download_path+"\\"+runIds)
+        self.scrapper_obj = ClearLabsApi( self.fasta_file_download_path+"/"+runIds)
 
         self.log.write_log("Scrape - Login", "Loging into clearlabs")
         #Log into ClearLabs
@@ -56,7 +56,7 @@ class WorkflowObj0(workflow_obj):
 
         while download_complete:
 
-            if os.path.exists(self.fasta_file_download_path+"\\"+runIds+"\\"+runIds+".all.tar"):
+            if os.path.exists(self.fasta_file_download_path+"/"+runIds+"/"+runIds+".all.tar"):
                 download_complete=False
                 self.log.write_log("Download Wait","File Finshed Downloading")
                 break

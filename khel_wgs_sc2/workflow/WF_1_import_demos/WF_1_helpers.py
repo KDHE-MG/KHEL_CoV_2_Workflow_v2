@@ -156,7 +156,7 @@ class WorkflowObj1(workflow_obj):
         df_table_col_query = "(" + ", ".join(self.df.columns.astype(str).tolist()) + ")"
         self.write_query_tbl1 = self.write_query_tbl1.replace("{df_table_col_query}", df_table_col_query)
         self.db_handler.lst_ptr_push(df_lst=df_demo_lst, query=self.write_query_tbl1)
-        self.log.write_log("database_push","Done!")
+        self.log.write_log("database_push","Done!`")
 
 
 

@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter import *
 import re
 from turtle import position
+import json
 
 
 def progressBar(iterable, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
