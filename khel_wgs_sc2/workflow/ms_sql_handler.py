@@ -25,7 +25,7 @@ class ms_sql_handler():
     # Create
     def establish_db(self):
         try:
-            self.engine = create_engine('mssql+pyodbc://' + self.sql_user + ':' + self.sql_pass + '@' + self.sql_server + '/' + self.sql_db + '?driver=SQL+Server')
+            self.engine = create_engine('mssql+pyodbc://' + self.sql_user + ':' + self.sql_pass + '@' + self.sql_server + '/' + self.sql_db + '?driver=ODBC+Driver+17+for+SQL+Server')
         except Exception as e:
             print(e)
             #self.logger.critical(self.log_name + ": Issue in connection to mssql database")
