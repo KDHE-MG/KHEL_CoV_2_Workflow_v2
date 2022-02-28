@@ -3,6 +3,7 @@ from ..reader import get_pandas
 from ..ui import get_path
 from ..formatter import add_cols, remove_pools, remove_blanks, merge_dataframes
 import datetime
+import subprocess
 from logger import Script_Logger
 
 
@@ -12,6 +13,7 @@ class WorkflowObj5(workflow_obj):
         self.id = "WF_5"
         self.log = Script_Logger("WF_5_Parse_Pangolin")
         self.log.start_log("Initalization of WF5")
+
     # methods
     def get_json(self):
         super().get_json(5)
@@ -87,51 +89,13 @@ class WorkflowObj5(workflow_obj):
         self.log.write_log("database_push","Completed")
 
 
-    def get_fasta_path(self):
-        self.log.write_log("database_push","Use the following window to open the fasta file you'd like to send for pangolin analysis...")
-        return get_path()
-
-
-    def send_fasta(self, compiled_fasta_path):
-        self.log.write_log("send_fasta","Starting")
-        # store the fasta file name
-        folders = compiled_fasta_path.split("/")
-        self.fasta_filename = folders[-1]
-        self.log.write_log("send_fasta","Setting up TCP connection to server")
-        # establish connection to server
-        super().setup_ssh()
-        self.log.write_log("send_fasta"," Connection established!")
-        # send the fasta file to the server, at the specified location
-        self.log.write_log("send_fasta","Sending fasta file to server...")
-        self.ssh_handler.ssh_send_file(compiled_fasta_path, "pangolin")
-        self.log.write_log("send_fasta"," File sent successfully!")
-
-
 
     def run_pangolin(self):
         self.log.write_log("run_pangolin","Starting")
-        # connection to the server has already been established
-        # check for updates and update if needed
         exec_cmd = "cd pangolin-master/pangolin && source ~/miniconda3/bin/activate pangolin && pangolin " + "pangolin/data/" + self.fasta_filename
 
         self.log.write_log("run_pangolin","Running the pangolin analysis, please wait...\n")
-        stdin, stdout, stderr = self.ssh_handler.ssh_exec(exec_cmd)
-        lines = stdout.readlines()
-        errors = stderr.readlines()
-        for e in errors:
-            print(e[:-1])
-        for l in lines:
-            print(l[:-1])
+        run_obj = subprocess.run(exec_cmd, capture_output=True, shell=True)
+        print(run_obj.stderr.decode())
+        print(run_obj.stdout.decode())
         self.log.write_log("run_pangolin"," Pangolin analysis finished!")
-        
-    
-    def receive_pangolin_df(self, dest):
-        self.log.write_log("receive_pangolin_df","Pulling pangolin results file from server...")
-        self.ssh_handler.ssh_receive_file(dest + "/results.csv", "pangolin")
-        self.log.write_log("receive_pangolin_df"," Pangolin results file successfully received!")
-
-    
-    def clean_connections(self):
-        self.log.write_log("clean_connections","Signing out of server...")
-        self.ssh_handler.close_connections()
-        self.log.write_log("clean_connections"," Sign out successful")
