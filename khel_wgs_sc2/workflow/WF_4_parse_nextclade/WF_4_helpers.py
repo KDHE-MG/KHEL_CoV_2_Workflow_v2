@@ -98,12 +98,6 @@ class WorkflowObj4(workflow_obj):
         self.db_handler.lst_ptr_push(df_lst=df_results_final_lst, query=self.write_query_tbl1)
         self.log.write_log("database_push","Completed")
 
-    def get_fasta_path(self):
-        self.log.write_log("get_fasta_path","Starting")
-        print("\nUse the following window to open the fasta file you'd like to send for nextclade analysis...")
-        self.log.write_log("get_fasta_path","Completed")
-        return get_path()
-
 
     def run_nextclade(self, path):
         self.log.write_log("run_nextclade","starting")
