@@ -3,6 +3,7 @@ from ..reader import get_pandas
 from ..ui import get_path
 from ..formatter import add_cols, remove_blanks, remove_pools, merge_dataframes
 from logger import Script_Logger
+import subprocess
 
 class WorkflowObj4(workflow_obj):
     # constructor
@@ -104,50 +105,17 @@ class WorkflowObj4(workflow_obj):
         return get_path()
 
 
-    def send_fasta(self, compiled_fasta_path):
-        self.log.write_log("send_fasta","Starting")
-        
-        # store the fasta file name
-        folders = compiled_fasta_path.split("/")
-        self.fasta_filename = folders[-1]
-        self.log.write_log("send_fasta","Setting up TCP connection to server")
-        # establish connection to server
-        super().setup_ssh()
-        self.log.write_log("send_fasta"," Connection established!")
-        # send the fasta file to the server, at the specified location
-        self.log.write_log("send_fasta","Sending fasta file to server...")
-        self.ssh_handler.ssh_send_file(compiled_fasta_path, "nextclade")
-        elf.log.write_log("send_fasta"," File sent successfully!")
-
-
-    def run_nextclade(self):
+    def run_nextclade(self, path):
         self.log.write_log("run_nextclade","starting")
         # connection to the server has already been established
         # check for updates and update if needed
-        exec_cmd = "cd nextclade-master && ./nextclade --in-order --input-fasta=data/sars-cov-2/input/" + self.fasta_filename + \
+        exec_cmd = "cd nextclade-master && ./nextclade --in-order --input-fasta=" + path + \
 " --input-dataset=data/sars-cov-2 --output-tsv=output/nextclade.tsv --output-dir=output/ --output-basename=nextclade"
 
         self.log.write_log("run_nextclade","Attempting to run the Nextclade application, please wait.\n")
         # execute command
-        stdin, stdout, stderr = self.ssh_handler.ssh_exec(exec_cmd)
-        lines = stdout.readlines()
-        errors = stderr.readlines()
-        for e in errors:
-            self.log.write_warning("run_nextclade",e[:-1])
-            print(e[:-1])
-        for l in lines:
-            self.log.write_log("run_nextclade",l[:-1])
-            print(l[:-1])
+        run_obj = subprocess.run(exec_cmd, capture_output=True, shell=True)
+        print(run_obj.stderr.decode())
+        print(run_obj.stdout.decode())
         self.log.write_log("run_nextclade"," Nextclade analysis finished!")
 
-    
-    def receive_nextclade_df(self, dest):
-        self.log.write_log("receive_nextclade_df","Pulling nextclade results file from server...")
-        self.ssh_handler.ssh_receive_file(dest + "/nextclade.tsv", "nextclade")
-        self.log.write_log("receive_nextclade_df"," Nextclade results file successfully received!")
-
-
-    def clean_connections(self):
-        self.log.write_log("clean_connections","Signing out of server...")
-        self.ssh_handler.close_connections()
-        self.log.write_log("clean_connections"," Sign out successful\n")
