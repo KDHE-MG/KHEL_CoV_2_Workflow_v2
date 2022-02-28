@@ -19,7 +19,7 @@ def run_script_5(run_id):
     compiled_fasta_path =  data_obj.fasta_file_path + run_date + "." + str(machine_num) + "." + str(day_run_num) + "/"+ file_name
 
     # compute the paths needed to complete analysis
-    data_obj.run_pangolin()
+    data_obj.run_pangolin(compiled_fasta_path)
     pangolin_path = "/".join(compiled_fasta_path.split("/")[:-1])
     data_obj.get_pango_dfs(pangolin_path + "/results.csv")
 

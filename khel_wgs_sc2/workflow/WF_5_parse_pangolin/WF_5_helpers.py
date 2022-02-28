@@ -90,11 +90,12 @@ class WorkflowObj5(workflow_obj):
 
 
 
-    def run_pangolin(self):
+    def run_pangolin(self, path):
         self.log.write_log("run_pangolin","Starting")
-        exec_cmd = "cd pangolin-master/pangolin && source ~/miniconda3/bin/activate pangolin && pangolin " + "pangolin/data/" + self.fasta_filename
+        exec_cmd = "cd pangolin-master/pangolin && source ~/miniconda3/bin/activate pangolin && pangolin " + path
 
         self.log.write_log("run_pangolin","Running the pangolin analysis, please wait...\n")
+        # execute command
         run_obj = subprocess.run(exec_cmd, capture_output=True, shell=True)
         print(run_obj.stderr.decode())
         print(run_obj.stdout.decode())
