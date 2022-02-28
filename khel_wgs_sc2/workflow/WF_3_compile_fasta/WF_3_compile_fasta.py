@@ -18,6 +18,8 @@ def run_script_3(run_id):
     #NOTE the path_to_fasta will be sent over to the results_table in the nextclade_parser
     data_obj.database_push()
 
+    data_obj.delete_compress_fasta(run_id)
+
     print("\n================================\nSuccess! Script Finished.\n================================\n\n")
     time.sleep(2)
 

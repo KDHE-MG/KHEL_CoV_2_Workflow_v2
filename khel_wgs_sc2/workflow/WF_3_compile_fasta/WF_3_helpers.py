@@ -31,7 +31,7 @@ class WorkflowObj3(workflow_obj):
         run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
         day_run_num = int(run_id[-2:])
 
-        self.path =  self.fasta_download_file_path + "/"+run_id + "/FAST files"
+        self.path =  self.fasta_file_path + "/"+run_id + "/FAST files"
 
         # make new folder/file to save to
         splt = self.path.split("/")
@@ -46,10 +46,9 @@ class WorkflowObj3(workflow_obj):
         filename = "all_" + date + "_" + machinenum + ".fasta"
 
         # make file to save to
-        if splt[-3] == "ClearLabs" or splt[-3] == "ClearLabs downloads":
-            path_write = "/".join(splt[:-1]) + "/" + filename
-        else:
-            path_write = "DOES NOT EXIST"
+        #if splt[-3] == "ClearLabs" or splt[-3] == "ClearLabs downloads":
+        path_write = "/".join(splt[:-1]) + "/" + filename
+    
         extension = ".fasta"
         
         # initialize string that will hold all the sequence data
@@ -126,4 +125,10 @@ class WorkflowObj3(workflow_obj):
         df_lst = self.df.values.astype(str).tolist()
         self.db_handler.lst_ptr_push(df_lst=df_lst, query=self.write_query_tbl2)
 
+    def delete_compress_fasta(self, runID):
+        if os.path.exists(self.fasta_file_path+"/"+runID+"/"+runID+".all.tar.gz"):
+            os.remove(self.fasta_file_path+"/"+runID+"/"+runID+".all.tar.gz")
+            
+        else:
+            self.log.write_warning("No Compressed Fasta File found")
 
