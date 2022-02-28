@@ -19,13 +19,9 @@ def run_script_5(run_id):
     compiled_fasta_path =  data_obj.fasta_file_path + run_date + "." + str(machine_num) + "." + str(day_run_num) + "/"+ file_name
 
     # compute the paths needed to complete analysis
-    target_folders = compiled_fasta_path.split("/")
-    if len(target_folders) <= 1:
-        compiled_fasta_path = data_obj.get_fasta_path()
-        target_folders = compiled_fasta_path.split("/")
-    target_folder = "/".join(target_folders[:-1])
     data_obj.run_pangolin()
-    data_obj.get_pango_dfs(pango_path=target_folder + "/results.csv")
+    pangolin_path = "".join(compiled_fasta_path.split("/")[:-1])
+    data_obj.get_pango_dfs(pangolin_path + "/results.csv")
 
 
     # push results to database
