@@ -20,7 +20,7 @@ def run_script_5(run_id):
 
     # compute the paths needed to complete analysis
     data_obj.run_pangolin()
-    pangolin_path = "".join(compiled_fasta_path.split("/")[:-1])
+    pangolin_path = "/".join(compiled_fasta_path.split("/")[:-1])
     data_obj.get_pango_dfs(pangolin_path + "/results.csv")
 
 
