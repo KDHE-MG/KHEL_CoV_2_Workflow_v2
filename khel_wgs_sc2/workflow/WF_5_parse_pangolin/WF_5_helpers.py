@@ -18,14 +18,9 @@ class WorkflowObj5(workflow_obj):
         self.log.write_log("get_json","Argument Pass 5")
 
 
-    def get_pango_dfs(self, pango_path=False):
+    def get_pango_dfs(self, pango_path):
         self.log.write_log("get_pango_dfs","Starting")
 
-        # open pangolin path --> pandas dataframe
-        if not pango_path:
-            self.log.write_warning("get_pango_dfs","No Pango Path")
-            print("\nUse the following window to open the pangolin results workbook...")
-            pango_path = get_path()
         splt = pango_path.split("/")
         parent_folder = splt[-2]
         data = parent_folder.split(".")
