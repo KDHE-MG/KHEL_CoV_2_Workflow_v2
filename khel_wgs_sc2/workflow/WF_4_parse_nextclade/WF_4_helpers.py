@@ -117,7 +117,7 @@ class WorkflowObj4(workflow_obj):
         # send the fasta file to the server, at the specified location
         self.log.write_log("send_fasta","Sending fasta file to server...")
         self.ssh_handler.ssh_send_file(compiled_fasta_path, "nextclade")
-        elf.log.write_log("send_fasta"," File sent successfully!")
+        self.log.write_log("send_fasta"," File sent successfully!")
 
 
     def run_nextclade(self):
