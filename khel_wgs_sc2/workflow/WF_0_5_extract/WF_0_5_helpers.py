@@ -18,8 +18,8 @@ class Workflow0_5(workflow_obj):
         
         self.log.write_log("extract","Run ID passed "+runId)
         self.log.write_log("extract","Path to file is "+self.fasta_file_download_path+"/"+runId)
-
-        fastas= tarfile.open(self.fast_file_download_path+"/"+runId+"/"+runId+".fastas.tar")
+        
+        fastas= tarfile.open(self.fast_file_download_path+"/"+runId+"/"+runId+".all.tar.gz")
 
         self.log.write_log("extract","Making Fasta File directory")
         os.mkdir(self.fast_file_download_path+"/"+runId+"/FAST files")
