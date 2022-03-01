@@ -5,6 +5,7 @@ from tkinter import *
 import re
 from turtle import position
 import json
+import os
 
 
 def progressBar(iterable, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
@@ -52,8 +53,8 @@ def get_run_data(runID_ui):
     #         ask = False
     
     # now, pull meaningful information out of supplied data
-    machine_num = seq_run_id[8:10]
-    run_date = datetime.datetime.strptime(seq_run_id[11:21], '%Y-%m-%d').strftime("%m/%d/%Y")
+    machine_num = seq_run_id[4:6]
+    run_date = datetime.datetime.strptime(seq_run_id[7:17], '%Y-%m-%d').strftime("%m/%d/%Y")
     day_run_num = int(seq_run_id[-2:])
 
     # get the run data from clearlabs21
@@ -63,43 +64,20 @@ def get_run_data(runID_ui):
     #pos_dict = {"A":1, "B":2, "C":3, "D":4, "E":5, "F":6, "G":7, "H":8}
     
     run_data = {"hsn":[], "position":[], "avg_depth":[], "percent_cvg":[]}
-    
-    run_dump= json.load(open("data/run_data.json","r"))
+
+    script_dir = "/".join(os.path.abspath(__file__).split('/')[:-3])
+    rel_path = "/data/run_data.json"
+    abs_path = script_dir + rel_path
+
+    file = open(abs_path, "r")
+    run_dump = json.load(file)
+    file.close()
 
     for hsn in [*run_dump[runID_ui]]:
         run_data["hsn"].append(hsn)
         run_data["position"].append(run_dump[runID_ui][hsn][0])
-        run_data["avg_depth"].append(int(run_dump[runID_ui][hsn][3]))
-        run_data["percent_cvg"].append(float(run_dump[runID_ui][hsn][4])/100)
-
-
-
-
-
-
-    # while c < 224:
-    #     u_input = input("")
-    #     if c % 7 == 0: # it is a seq_run_position
-    #         # format input first
-    #         pos = (int(u_input[-1])*8 - 8) + pos_dict[u_input[0]]
-    #         run_data["position"].append(pos)
-    #     elif c % 7 == 1: # it is an hsn
-    #         hsn = ""
-    #         if re.search("\d{7}..", u_input):
-    #             hsn = u_input[0:-2]
-    #         else:
-    #             hsn = u_input
-    #         run_data["hsn"].append(hsn)
-    #     elif c % 7 == 3: # it is depth
-    #         depth = u_input.replace("x", "")
-    #         run_data["avg_depth"].append(int(depth))
-    #     elif c % 7 == 4: # it is coverage
-    #         coverage = u_input.replace("%", "")
-    #         coverage = float(coverage)/100
-    #         run_data["percent_cvg"].append(coverage)
-    #     else:
-    #         pass
-    #     c += 1
+        run_data["avg_depth"].append(int(run_dump[runID_ui][hsn][3][:-1]))
+        run_data["percent_cvg"].append(float(run_dump[runID_ui][hsn][4][:-1])/100)
     
     return run_data, machine_num, run_date, day_run_num, platform ;
 

@@ -2,7 +2,7 @@ from ..workflow_obj import workflow_obj
 from ..reader import get_pandas
 from ..ui import get_path
 from ..formatter import add_cols, remove_blanks, remove_pools, merge_dataframes
-from logger import Script_Logger
+from workflow.logger import Script_Logger
 import subprocess
 
 class WorkflowObj4(workflow_obj):
@@ -103,13 +103,12 @@ class WorkflowObj4(workflow_obj):
         self.log.write_log("run_nextclade","starting")
         # connection to the server has already been established
         # check for updates and update if needed
-        exec_cmd = "cd nextclade-master && ./nextclade --in-order --input-fasta=" + path + \
+        exec_cmd = "cd /home/ssh_user/nextclade-master && ./nextclade --in-order --input-fasta=" + path + \
 " --input-dataset=data/sars-cov-2 --output-tsv=output/nextclade.tsv --output-dir=output/ --output-basename=nextclade"
 
         self.log.write_log("run_nextclade","Attempting to run the Nextclade application, please wait.\n")
         # execute command
         run_obj = subprocess.run(exec_cmd, capture_output=True, shell=True)
-        print(run_obj.stderr.decode())
-        print(run_obj.stdout.decode())
+        run_obj = subprocess.run("cp /home/ssh_user/nextclade-master/output/nextclade.tsv "+"/".join(path.split("/")[:-1])+"/nextclade.tsv", capture_output=True, shell=True)
         self.log.write_log("run_nextclade"," Nextclade analysis finished!")
 

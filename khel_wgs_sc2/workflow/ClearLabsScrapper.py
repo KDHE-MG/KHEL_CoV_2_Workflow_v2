@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import time 
 import sys
+import os
 
 
 class ClearLabsApi():
@@ -25,8 +26,7 @@ class ClearLabsApi():
 		opt.headless= True
 #chrome must be install on device runing this
 #we should inculde the chrome binarys into resourses
-		ChromeDriverPathSer=Service("/home/ks_khel/Documents/GitHub/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
-
+		ChromeDriverPathSer=Service("/home/ssh_user/repos/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
 
 		self.driver = webdriver.Chrome(service=ChromeDriverPathSer,options=opt)
 		self.driver.implicitly_wait(15)
@@ -44,8 +44,7 @@ class ClearLabsApi():
 
 	def find_runs(self,runIDs):
 		#change page to list of run pages
-
-		self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click() 
+		self.driver.find_element_by_css_selector('li.sc-cd5qzr-0:nth-child(5) > a:nth-child(1) > span:nth-child(1)').click()
 
 		run_sample_info={}
 
@@ -77,9 +76,9 @@ class ClearLabsApi():
 
 		self.driver.find_element(By.CSS_SELECTOR,"div.sc-1n4kxe3-1:nth-child(3)").click() 
 
-		s#self.driver.find_element(By.XPATH,"//div[contains(@class,'sc-6wkgny-0 sc-1n4kxe3-1 iwyGgY kBSIHC')]").click() #clicks the download all fasta button but not great becuase only finds the first element not specfifc enough should be bulit to be more robust
+		#self.driver.find_element(By.XPATH,"//div[contains(@class,'sc-6wkgny-0 sc-1n4kxe3-1 iwyGgY kBSIHC')]").click() #clicks the download all fasta button but not great becuase only finds the first element not specfifc enough should be bulit to be more robust
 
-		#self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
+		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
 		#sleep can be removed but waiting for file to be downloaded 
 		time.sleep(5)
 		

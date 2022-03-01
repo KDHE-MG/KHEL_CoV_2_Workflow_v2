@@ -50,39 +50,55 @@ def run(run_id):
             # before anything else starts
             run_script_0(run_id)
 
-            t1 = threading.Thread(target=run_set_1, args=run_id)
-            t2 = threading.Thread(target=run_set_2, args=run_id)
-
-            # start multitasking
-            t1.start() # WF 1, 2
-            t2.start() # WF 0_5, 3
-
-            # WF 2 and 3 must finish before 4 and 5 start
-            t1.join()
-            t2.join()
+            run_script_0_5(run_id)
+            run_script_1(run_id)
+            run_script_2(run_id)
+            run_script_3(run_id)
+            run_script_4(run_id)
+            run_script_5(run_id)
+            run_script_6(run_id)
+            run_gisaid()
             
-            # TODO - access fasta path within run_script 4 and 5 via run_id
-            t3 = threading.Thread(target=run_script_4, args=run_id)
-            t4 = threading.Thread(target=run_script_5, args=run_id)
-            t3.start()
-            t4.start()
-            t3.join()
-            t4.join()
+
+            # TODO setup thread pooling to reduce resource
+            # requirements
+
+            # t1 = threading.Thread(target=run_set_1, args=run_id)
+            # t2 = threading.Thread(target=run_set_2, args=run_id)
+
+            # # start multitasking
+            # t1.start() # WF 1, 2
+            # t2.start() # WF 0_5, 3
+
+            # # WF 2 and 3 must finish before 4 and 5 start
+            # t1.join()
+            # t2.join()
             
-            run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m/%d/%Y")
-            t5 = threading.Thread(target=run_script_9, args=run_date)
-            t6 = threading.Thread(target=run_gisaid)
+            # # TODO - access fasta path within run_script 4 and 5 via run_id
+            # t3 = threading.Thread(target=run_script_4, args=run_id)
+            # t4 = threading.Thread(target=run_script_5, args=run_id)
+            # t3.start()
+            # t4.start()
+            # t3.join()
+            # t4.join()
+            
+            # run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m/%d/%Y")
+            # run_script_9(run_date)
+            #run_gisaid()
+            
+            # t5 = threading.Thread(target=run_script_9, args=run_date)
+            #t6 = threading.Thread(target=run_gisaid)
 
             # we can have the script grab all 64 samples for the day
             # since it will just create 2 files, one for each run
-            t7 = threading.Thread(target=run_script_6, args=run_id)
-            t5.start()
+            # t7 = threading.Thread(target=run_script_6, args=run_id)
+            # t5.start()
 
-            t6.start()
-            t7.start()
-            t5.join()
-            t6.join()
-            t7.join()
+            # t6.start()
+            # t7.start()
+            # t5.join()
+            # t6.join()
+            # t7.join()
 
         except pyodbc.IntegrityError as i:
             print(i)

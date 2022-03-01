@@ -5,8 +5,9 @@ from ..formatter import add_cols, format_hsn_col
 import datetime
 import cx_Oracle as co
 import pandas as pd
-from logger import Script_Logger
+from workflow.logger import Script_Logger
 import json
+import os
 
 
 
@@ -52,32 +53,15 @@ class WorkflowObj1(workflow_obj):
         # column name = 'Sample ID'
         self.log.write_log("get_intial_demo_df","opening json file and dumping HSNs into var")
         #get HSN from json
-        hsn = [*json.load("//data/run_data.json")[runId_helper]]
+        script_dir = "/".join(os.path.abspath(__file__).split('/')[:-4])
+        rel_path = "/data/run_data.json"
+        self.abs_path = script_dir + rel_path
+        with open (self.abs_path) as f:
+            hsn = [*json.load(f)[runId_helper]]
     #check with jonathan
         self.log.write_log("get_intial_demo_df","Creating DF with only HSNs")
 
-        self.df_right = pd.DataFrame(hsn)
-        self.df_right.columns(["Sample ID"]) #is this called hsn or sample ID????
-        '''
-        self.demo_path = get_path()
-        self.df_right = get_pandas(self.demo_path, 'WF_1', 'run order', ',')
-        self.df_right = self.df_right.applymap(str)
-        # drop controls from index
-        neg = False
-        pos = False
-        for row in range(len(self.df_right.index)):
-            if "neg" in self.df_right['Sample ID'][row].lower():
-                neg_idx = row
-                neg = True
-            if "pos" in self.df_right['Sample ID'][row].lower():
-                pos_idx = row
-                pos = True
-            if neg and pos:
-                break
-        if neg:
-            self.df_right.drop([neg_idx], inplace=True)
-        if pos:
-            self.df_right.drop([pos_idx], inplace=True)'''
+        self.df_right = pd.DataFrame(hsn, columns=['Sample ID'])
 
 
     def format_demo_df(self):
@@ -128,14 +112,11 @@ class WorkflowObj1(workflow_obj):
         
 
 
-    def format_dfs(self):
+    def format_dfs(self, runId):
         self.log.write_log("format_dfs","Starting")
         # get the date for wgs_run_date column
-        path_arr = self.demo_path.split("/")
-        name = path_arr[-1]
-        date_input = name[3:5] + "-" + name[5:7] + "-20" + name[7:9]
-        self.wgs_run_date = datetime.datetime.strptime(date_input, '%m-%d-%Y')
-        self.wgs_run_date = self.wgs_run_date.strftime("%m/%d/%Y")
+        self.wgs_run_date = datetime.datetime.strptime(runId[7:17], '%Y-%m-%d').strftime("%m/%d/%Y")
+
         # format columns, insert necessary values
         self.log.write_log("format_dfs","Adding/Formatting/Sorting columns")
 

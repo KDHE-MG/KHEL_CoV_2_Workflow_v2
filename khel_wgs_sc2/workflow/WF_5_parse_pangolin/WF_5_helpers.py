@@ -4,7 +4,7 @@ from ..ui import get_path
 from ..formatter import add_cols, remove_pools, remove_blanks, merge_dataframes
 import datetime
 import subprocess
-from logger import Script_Logger
+from workflow.logger import Script_Logger
 
 
 class WorkflowObj5(workflow_obj):
@@ -92,11 +92,10 @@ class WorkflowObj5(workflow_obj):
 
     def run_pangolin(self, path):
         self.log.write_log("run_pangolin","Starting")
-        exec_cmd = "cd pangolin-master/pangolin && source ~/miniconda3/bin/activate pangolin && pangolin " + path
+        exec_cmd = "cd /home/ssh_user/pangolin-master/pangolin && source /home/ssh_user/miniconda3/bin/activate pangolin && pangolin " + path
 
         self.log.write_log("run_pangolin","Running the pangolin analysis, please wait...\n")
         # execute command
-        run_obj = subprocess.run(exec_cmd, capture_output=True, shell=True)
-        print(run_obj.stderr.decode())
-        print(run_obj.stdout.decode())
+        run_obj = subprocess.run(exec_cmd, executable='/bin/bash', capture_output=True, shell=True)
+        run_obj = subprocess.run("cp /home/ssh_user/pangolin-master/pangolin/lineage_report.csv "+"/".join(path.split('/')[:-1])+"/results.csv", shell=True)
         self.log.write_log("run_pangolin"," Pangolin analysis finished!")

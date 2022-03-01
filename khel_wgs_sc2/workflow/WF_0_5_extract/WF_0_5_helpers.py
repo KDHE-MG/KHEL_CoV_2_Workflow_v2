@@ -1,7 +1,8 @@
 from ..workflow_obj import workflow_obj
 import tarfile
 import os 
-from logger import Script_Logger
+import datetime
+from workflow.logger import Script_Logger
 
 class Workflow0_5(workflow_obj):
 
@@ -17,14 +18,18 @@ class Workflow0_5(workflow_obj):
     def extract(self,runId):
         
         self.log.write_log("extract","Run ID passed "+runId)
-        self.log.write_log("extract","Path to file is "+self.fasta_file_download_path+"/"+runId)
+        machine_num = runId[4:6]
+        run_date = datetime.datetime.strptime(runId[7:17], '%Y-%m-%d').strftime("%m%d%y")
+        day_run_num = str(int(runId[-2:]))
+        runIds = run_date + "." + machine_num + "." + day_run_num
+        self.log.write_log("extract","Path to file is "+self.fasta_file_download_path+"/"+runIds)
         
-        fastas= tarfile.open(self.fast_file_download_path+"/"+runId+"/"+runId+".all.tar.gz")
+        fastas= tarfile.open(self.fasta_file_download_path+runIds+"/"+runId+".all.tar")
 
         self.log.write_log("extract","Making Fasta File directory")
-        os.mkdir(self.fast_file_download_path+"/"+runId+"/FAST files")
+        os.mkdir(self.fasta_file_download_path+runIds+"/FAST files")
         
         self.log.write_log("extract","Performing Extraction")
-        fastas.extractall(self.fast_file_download_path+"/"+runId+"/FAST files")
+        fastas.extractall(self.fasta_file_download_path+runIds+"/FAST files")
 
         fastas.close()

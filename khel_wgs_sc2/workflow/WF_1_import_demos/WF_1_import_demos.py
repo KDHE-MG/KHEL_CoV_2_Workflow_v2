@@ -10,7 +10,7 @@ def run_script_1(runID):
     data_obj.get_json()
 
     # verify that controls are valid
-    data_obj.get_priority()
+    #data_obj.get_priority()
     data_obj.verify_ctrls()
 
     # open demo path --> pandas dataframe
@@ -33,7 +33,7 @@ def run_script_1(runID):
     # inner join on hsn
     # FORMATTER
     data_obj.merge_dfs()
-    data_obj.format_dfs()
+    data_obj.format_dfs(runID)
 
     # get info into database
     # DB_HANDLER

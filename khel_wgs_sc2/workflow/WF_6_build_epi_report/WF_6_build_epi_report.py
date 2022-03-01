@@ -14,7 +14,7 @@ def run_script_6(run_id):
     if run_id == "windows":
         data_obj.get_ui()
     else:
-        run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%Y-%m-%d")
+        run_date = run_id[7:17]
         data_obj.get_report(run_date)
 
     # get user input (should we format df by facility or date?)

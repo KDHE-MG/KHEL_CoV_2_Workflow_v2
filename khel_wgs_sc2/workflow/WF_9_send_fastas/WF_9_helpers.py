@@ -25,8 +25,12 @@ class WorkflowObj9(workflow_obj):
             raise ValueError("==================================================================================\nError:\nNo eligible samples from this date!! - All samples failed QC?\n==================================================================================\n")
 
 
-    def build_fasta(self):
-        path_write = self.base_path + "/" + self.day.strftime("%m%d%y") + ".fasta"
+    def build_fasta(self, run_id):
+        machine_num = run_id[4:6]
+        run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
+        day_run_num = int(run_id[-2:])
+        folder_file = run_date + "." + str(machine_num) + "." + str(day_run_num) + "/" + self.day.strftime("%m%d%y") + "_epi.fasta"
+        path_write = self.base_path + folder_file
         s=""
         ctr=0
         f = open(path_write, "w")

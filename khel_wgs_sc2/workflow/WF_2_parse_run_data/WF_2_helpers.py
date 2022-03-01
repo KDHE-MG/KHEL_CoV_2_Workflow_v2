@@ -2,7 +2,7 @@ from ..workflow_obj import workflow_obj
 from ..ui import get_run_data
 from ..formatter import add_cols, remove_blanks, remove_pools
 import pandas as pd
-from logger import Script_Logger
+from workflow.logger import Script_Logger
 
 
 class WorkflowObj2(workflow_obj):

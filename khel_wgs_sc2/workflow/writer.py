@@ -31,7 +31,7 @@ def save_csv(df, path, user_selection, lab):
         pass
     # save files
     try:
-        df.to_csv(path + "\\" + filename_df, index = False)
+        df.to_csv(path + "/" + filename_df, index = False)
         #bad_df.to_csv(path + filename_baddf, index = False)
     except PermissionError as e:
         print(e ,"\n This can happen when the file is already open.  Make sure the epi excel files are closed!")
@@ -50,8 +50,8 @@ def save_epi_csv(df, bad_df, path):
     
     # save files
     try:
-        df.to_csv(path + "\\" + filename_df, index = False)
-        bad_df.to_csv(path + "\\" + filename_bad_df, index=False)
+        df.to_csv(path + "/" + filename_df, index = False)
+        bad_df.to_csv(path + "/" + filename_bad_df, index=False)
         #bad_df.to_csv(path + filename_baddf, index = False)
     except PermissionError as e:
         print(e ,"\n This can happen when the file is already open.  Make sure the epi excel files are closed!")

@@ -4,7 +4,7 @@ from ..formatter import add_cols, remove_pools, remove_blanks, replace_shortcut
 import os
 import pandas as pd
 import datetime
-from logger import Script_Logger
+from workflow.logger import Script_Logger
 
 
 class WorkflowObj3(workflow_obj):
@@ -29,9 +29,12 @@ class WorkflowObj3(workflow_obj):
 
         machine_num = run_id[4:6]
         run_date = datetime.datetime.strptime(run_id[7:17], '%Y-%m-%d').strftime("%m%d%y")
-        day_run_num = int(run_id[-2:])
+        day_run_num = str(int(run_id[-2:]))
 
-        self.path =  self.fasta_file_path + "/"+run_id + "/FAST files"
+        run_id  = run_date + "." + machine_num + "." + day_run_num
+
+
+        self.path =  self.fasta_file_path + run_id + "/FAST files"
 
         # make new folder/file to save to
         splt = self.path.split("/")

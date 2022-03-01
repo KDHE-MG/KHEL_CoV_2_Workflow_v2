@@ -25,7 +25,6 @@ class WorkflowObj6(workflow_obj):
         self.query = self.query.replace("{percent_cvg_cutoff}", str(self.percent_cvg_cutoff))
         if not self.reportable:
             self.query = self.query.replace("{reportable}", "in (0,1)")
-            pass
         else:
             self.query = self.query.replace("{reportable}", " = " + str(self.reportable))
         self.bad_query = self.read_bad_date_query_tbl1.replace("{start}", date_start)
@@ -163,7 +162,7 @@ class WorkflowObj6(workflow_obj):
     def write_epi_report(self):
         # save both files to csv
         today = datetime.datetime.today().strftime("%m%d%y")
-        path = self.folderpathbase + "\\" + today
+        path = self.folderpathbase + "/" + today
         if self.bad:
             save_epi_csv(self.df, self.bad_df, path)
         else:

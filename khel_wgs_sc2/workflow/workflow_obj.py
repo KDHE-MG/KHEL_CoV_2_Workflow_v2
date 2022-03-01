@@ -16,14 +16,14 @@ class workflow_obj(ABC):
         print("Importing data from cache...")
         # get relative path to json cache file
         dirname = os.path.dirname(os.path.abspath(__file__))
-        folders = dirname.split("\\")
-        top_pkg_folder = "\\".join(folders[0:-2])
-        path_to_static_cache = top_pkg_folder + "\\data\\static_cache.json"
+        folders = dirname.split("/")
+        top_pkg_folder = "/".join(folders[0:-2])
+        path_to_static_cache = top_pkg_folder + "/data/static_cache.json"
 
         full_static_cache = read_json(path_to_static_cache)
         
         # only select today's workflow, check that static data is present
-        if wf > 0:
+        if wf >= 0:
             workflow = "workflow" + str(wf)
         else:
             if wf == -1:
@@ -55,7 +55,7 @@ class workflow_obj(ABC):
         self.col_func_map = gen_static_cache['col_func_map']
 
         # search for private data.  If empty, gather from user (first time use)
-        path_to_private_cache = top_pkg_folder + "\\data\\private_cache.json"
+        path_to_private_cache = top_pkg_folder + "/data/private_cache.json"
         # if the file doesn't exist, create it
         if os.path.isfile(path_to_private_cache) and os.access(path_to_private_cache, os.R_OK):
             pass
@@ -99,6 +99,11 @@ class workflow_obj(ABC):
                 self.ssh_port = gen_private_cache['ssh_port']
                 self.ssh_dest = gen_private_cache['ssh_dest']
                 need_ssh = False
+
+            need_cl_data = True
+            self.cl_user = gen_private_cache['cl_user']
+            self.cl_pwd = gen_private_cache['cl_pwd']
+            need_cl_data = False
             
             need_ctrls = True
             self.neg_ctrl_lot = gen_private_cache['neg_ctrl_lot']
@@ -107,15 +112,23 @@ class workflow_obj(ABC):
             self.pos_ctrl_exp = gen_private_cache['pos_ctrl_exp']
             need_ctrls = False
 
+            if wf == 0:
+                self.fasta_file_download_path = working_private_cache['fasta_file_download_path']
             if wf == 1:
                 self.priority_path = working_private_cache['priority_path']
                 self.lims_conn = working_private_cache['lims_conn']
+            if wf == 4:
+                self.fasta_file_path = working_private_cache['fasta_file_path']
+            if wf == 5:
+                self.fasta_file_path = working_private_cache['fasta_file_path']
             if wf == -2:
                 self.default_state = working_private_cache['default_state']
                 self.folderpathbase = working_private_cache['folderpathbase']
                 self.authors = working_private_cache['authors']
                 self.lab_name = working_private_cache['lab_name']
                 self.lab_addr = working_private_cache['lab_addr']
+            if abs(wf) == 3:
+                self.fasta_file_path = working_private_cache['fasta_file_path']
             if wf == 7:
                 self.destination = working_private_cache['destination']
                 self.location = working_private_cache['location']
@@ -140,6 +153,9 @@ class workflow_obj(ABC):
             print("Looks like this is your first time using the script!")
             print("\nPlease fill out the following questions (we'll store \
 results on-device so you won't have to enter them again).")
+            if wf == 0:
+                print("Please select the path to the folder where downloads should be stored.")
+                self.fasta_file_download_path = get_path()
             if wf == 1:
                 print("Please select the path to the .txt document containing the list of priority samples")
                 self.priority_path = get_path()
@@ -215,8 +231,14 @@ analysis on the current computer, use '127.0.0.1')\n--> ")
             if need_reportable:
                 self.reportable = int(input("\nPlease type 0 if you don't want the results to be reportable and 1 if you would like the results to be reportable.\n--> "))
 
+            if need_cl_data:
+                self.cl_user = input("\nPlease enter the email used to access the ClearLabs website:\n--> ")
+                self.cl_pwd = input("\nPlease enter the password used to access the ClearLabs website:\n--> ")
+
             print("\nFinished! If you need to change these values in the \
 future for any reason, modify the cache file: daily_workflow/data/private_cache.json")
+            if wf == 0:
+                full_private_cache[workflow]['fasta_file_download_path'] = self.fasta_file_download_path
             if wf == 1:
                 full_private_cache[workflow]['priority_path'] = self.priority_path
                 full_private_cache[workflow]['lims_conn'] = self.lims_conn
@@ -257,6 +279,8 @@ future for any reason, modify the cache file: daily_workflow/data/private_cache.
             full_private_cache["all_workflows"]['pos_ctrl_lot'] = self.pos_ctrl_lot
             full_private_cache["all_workflows"]['pos_ctrl_exp'] = self.pos_ctrl_exp
             full_private_cache["all_workflows"]['reportable'] = self.reportable
+            full_private_cache["all_workflows"]['cl_user'] = self.cl_user
+            full_private_cache["all_workflows"]['cl_pwd'] = self.cl_pwd
 
             print("\nStoring data for future use...")
             res = write_json(path_to_private_cache, full_private_cache)
