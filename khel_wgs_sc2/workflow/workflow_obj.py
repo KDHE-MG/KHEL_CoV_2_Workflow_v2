@@ -127,6 +127,7 @@ class workflow_obj(ABC):
                 self.authors = working_private_cache['authors']
                 self.lab_name = working_private_cache['lab_name']
                 self.lab_addr = working_private_cache['lab_addr']
+                self.user = working_private_cache['user']
             if abs(wf) == 3:
                 self.fasta_file_path = working_private_cache['fasta_file_path']
             if wf == 7:
@@ -169,6 +170,7 @@ on reports.\n--> ")
                 self.authors = input("\nPlease type the authors of the document\n--> ")
                 self.lab_name = input("\nPlease type the name of the lab submitting the report\n--> ")
                 self.lab_addr = input("\nPlease type the address of the lab submitting the report\n--> ")
+                self.user = input("\nWho should be the default user for this report?\n--> ")
             if wf == 7:
                 self.destination = input("\nType the relative path of the destination folder\n--> ")
                 self.location = input("\nType the address of the final location of sftp transfer\n--> ")
@@ -248,6 +250,7 @@ future for any reason, modify the cache file: daily_workflow/data/private_cache.
                 full_private_cache[workflow]['authors'] = self.authors
                 full_private_cache[workflow]['lab_name'] = self.lab_name
                 full_private_cache[workflow]['lab_addr'] = self.lab_addr
+                full_private_cache[workflow]['user'] = self.user
             if wf == 7:
                 full_private_cache[workflow]['destination'] = self.destination
                 full_private_cache[workflow]['location'] = self.location

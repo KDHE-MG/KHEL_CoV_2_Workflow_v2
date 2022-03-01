@@ -1,6 +1,7 @@
 import paramiko as pk
 import time
 import sys
+import os
 
 
 class ssh_handler():
@@ -65,6 +66,35 @@ class ssh_handler():
             ftp_client.close()
             print("\n\n", e)
             time.sleep(5)
+
+
+    def receive_files(self, source_dir, dest_dir):
+        # make folders in destination directory
+        os.makedirs(dest_dir)
+        try:
+            ftp_client=self.conn.open_sftp()
+            # transfer all files in source_dir to dest_dir
+            for filename in os.scandir(source_dir):
+                if filename.is_file():
+                    file_name = filename.path.split("/")[-1]
+                    ftp_client.get(filename.path, dest_dir+file_name)
+            ftp_client.close()
+        except Exception as e:
+            print("An error has occurred!")
+            ftp_client.close()
+            print("\n\n", e)
+            time.sleep(5)
+
+
+    def check_file(self, path):
+        # check if file exists.  If it does, return True
+        # else, return False
+        try:
+            ftp_client = self.conn.open_sftp()
+            ftp_client.stat(path)
+            return True
+        except IOError:
+            return False
 
 
     def close_connections(self):

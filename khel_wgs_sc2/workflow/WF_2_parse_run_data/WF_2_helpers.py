@@ -1,6 +1,6 @@
 from ..workflow_obj import workflow_obj
 from ..ui import get_run_data
-from ..formatter import add_cols, remove_blanks, remove_pools
+from ..formatter import add_cols, remove_blanks, remove_pools, get_pos
 import pandas as pd
 from workflow.logger import Script_Logger
 
@@ -56,6 +56,8 @@ class WorkflowObj2(workflow_obj):
         self.df_qc = remove_blanks(self.df_qc, 'hsn')
         # add columns
         self.log.write_log("format_dataframe","adding columns")
+
+        self.df_qc['position'] = self.df_qc.apply(lambda row: get_pos(row['position']), axis=1)
 
         self.df_qc = add_cols(obj=self, \
             df=self.df_qc, \

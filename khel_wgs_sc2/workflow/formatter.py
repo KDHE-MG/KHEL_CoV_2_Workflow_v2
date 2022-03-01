@@ -1,4 +1,5 @@
 import datetime
+from turtle import pos
 import pandas as pd
 import numpy as np
 import re
@@ -118,6 +119,12 @@ def format_date(row, colName):
 
 def get_today(row):
     return datetime.datetime.today().strftime("%Y-%m-%d")
+
+
+def get_pos(id):
+    pos_dict = {"A":1, "B":2, "C":3, "D":4, "E":5, "F":6, "G":7, "H":8}
+    pos = (int(id[-1])*8 - 8) + pos_dict[id[0]]
+    return pos
 
 
 def parse_seq_id(row, arg):

@@ -25,5 +25,4 @@ def run_script_2(runId):
     
     print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
     time.sleep(2)
-    return data_obj.wgs_run_date
 

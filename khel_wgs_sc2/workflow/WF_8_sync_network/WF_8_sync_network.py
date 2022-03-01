@@ -1,14 +1,14 @@
 import time
-from workflow.WF_8_sync_network import WorkflowObj8
+from workflow.WF_8_sync_network.WF_8_helpers import WorkflowObj8
 
-def run_script_8(run_id):
-    print("\n================================\n Synch Network script\n================================\n\n")
+def run_script_8():
+    print("\n================================\n Sync Network script\n================================\n\n")
     #create object
     data_obj = WorkflowObj8()
     #read in json
     data_obj.get_json()
     #Clean up folders/files and move them to their permante location
-    data_obj.clean_up(run_id)
+    data_obj.clean_up()
 
 
 

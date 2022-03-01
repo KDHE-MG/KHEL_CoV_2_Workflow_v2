@@ -7,6 +7,7 @@ from workflow.WF_4_parse_nextclade.WF_4_parse_nextclade import run_script_4
 from workflow.WF_5_parse_pangolin.WF_5_parse_pangolin import run_script_5
 from workflow.WF_6_build_epi_report.WF_6_build_epi_report import run_script_6
 from workflow.WF_7_send_epi_report.WF_7_send_epi_report import run_script_7
+from workflow.WF_8_sync_network.WF_8_sync_network import run_script_8
 from workflow.WF_9_send_fastas.WF_9_send_fastas import run_script_9
 from workflow.epi_isl.epi_isl import run_epi_isl
 from workflow.gisaid.gisaid import run_gisaid
@@ -17,6 +18,7 @@ import pyodbc
 import time
 import threading
 import datetime
+import os
 
 
 def run_set_1(run_id):
@@ -48,17 +50,18 @@ def run(run_id):
             # run_script_0 will perform web-scraping and save information in run_data.json file
             # run_script_0 will also download the FASTA/Q files for use later.  It MUST finish execution
             # before anything else starts
-            run_script_0(run_id)
+            lock_file = open("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt", "w")
+            #run_script_0(run_id)
 
-            run_script_0_5(run_id)
-            run_script_1(run_id)
-            run_script_2(run_id)
-            run_script_3(run_id)
-            run_script_4(run_id)
-            run_script_5(run_id)
-            run_script_6(run_id)
+            #run_script_0_5(run_id)
+            #run_script_1(run_id)
+            #run_script_2(run_id)
+            #run_script_3(run_id)
+            #run_script_4(run_id)
+            #run_script_5(run_id)
+            #run_script_6(run_id)
             run_gisaid()
-            
+
 
             # TODO setup thread pooling to reduce resource
             # requirements
@@ -100,18 +103,26 @@ def run(run_id):
             # t6.join()
             # t7.join()
 
+            # release the results
+            lock_file.close()
+            os.remove("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt")
+
         except pyodbc.IntegrityError as i:
             print(i)
             print("\nThis usually happens when the run data has already been imported into the database")
+            lock_file.close()
+            os.remove("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt")
             time.sleep(5)
         except Exception as i:
             print(i)
+            lock_file.close()
+            os.remove("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt")
             time.sleep(5)
 
     else:
         # script is being called by a user on windows
         while ask:
-            u_input = input("\n\nenter '6' to build an epi report\nenter '7' to send an epi report\
+            u_input = input("\n\nenter '6' to build an epi report\nenter '7' to send an epi report\nenter '8' to pull all results files from Linux\
                 \n\nOther options:\
                 \nenter 'plotter' to get an interactive dashboard of the database\
                 \nenter 'outside lab' to import a data template submitted from an outside lab\
@@ -124,9 +135,8 @@ def run(run_id):
                 elif u_input.strip().lower() == '7':
                     run_script_7()
 
-                # elif u_input.strip().lower() == 'plotter':
-                #     # run script
-                #     run_plotter()
+                elif u_input.strip().lower() == '8':
+                    run_script_8()
                     
                 elif u_input.strip().lower() == 'outside lab':
                     # run script
