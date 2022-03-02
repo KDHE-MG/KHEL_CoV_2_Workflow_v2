@@ -105,7 +105,7 @@ class gisaid_obj(workflow_obj):
         self.gisaid_df.insert(0, "covv_last_vaccinated", "unknown")
         self.gisaid_df.insert(0, "covv_treatment", "unknown")
         self.gisaid_df.insert(0, "covv_seq_technology", "nanopore minIon")
-        self.gisaid_df.insert(0, "covv_assembly_method", "ClearLabs") 
+        self.gisaid_df.insert(0, "covv_assembly_method", self.seq_tech) 
         self.gisaid_df.insert(0, "covv_orig_lab", self.lab_name)
         self.gisaid_df.insert(0, "covv_orig_lab_addr", self.lab_addr)
         self.gisaid_df.insert(0, "covv_provider_sample_id", "unknown")

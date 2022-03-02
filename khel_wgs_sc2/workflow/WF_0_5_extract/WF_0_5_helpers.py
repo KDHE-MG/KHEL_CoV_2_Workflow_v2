@@ -32,4 +32,6 @@ class Workflow0_5(workflow_obj):
         self.log.write_log("extract","Performing Extraction")
         fastas.extractall(self.fasta_file_download_path+runIds+"/FAST files")
 
+        os.remove(self.fasta_file_download_path + runIds + "/"+runId+".all.tar")
+
         fastas.close()
