@@ -66,7 +66,7 @@ class gisaid_obj(workflow_obj):
         # make both destination files for metadata and fasta
         self.file_no = 1
         date1 = datetime.datetime.today().strftime("%m%d%y")
-        self.folderpath = self.folderpathbase + "\\" + date1 + "\\"
+        self.folderpath = self.folderpathbase + "/" + date1 + "/"
         if not os.path.exists(self.folderpath):
             os.makedirs(self.folderpath)
         self.filepath = date1 + "_" + str(self.file_no) + ".fasta"
