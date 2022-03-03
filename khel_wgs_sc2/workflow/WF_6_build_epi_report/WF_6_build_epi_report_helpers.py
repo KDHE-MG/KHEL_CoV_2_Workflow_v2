@@ -161,7 +161,7 @@ class WorkflowObj6(workflow_obj):
     
     def write_epi_report(self, run_id):
         # save both files to csv
-        today = datetime.datetime.strptime(run_id[7:17], "%Y-%m-%d").strptime("%m%d%y")
+        today = datetime.datetime.strptime(run_id[7:17], "%Y-%m-%d").strftime("%m%d%y")
         path = self.folderpathbase + "/" + today
         if self.bad:
             save_epi_csv(self.df, self.bad_df, path, run_id)
