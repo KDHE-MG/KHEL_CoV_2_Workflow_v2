@@ -60,7 +60,7 @@ def run(run_id):
             run_script_4(run_id)
             run_script_5(run_id)
             run_script_6(run_id)
-            run_gisaid()
+            run_gisaid(run_id)
 
 
             # TODO setup thread pooling to reduce resource
