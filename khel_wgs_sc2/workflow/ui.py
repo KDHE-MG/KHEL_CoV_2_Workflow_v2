@@ -1,6 +1,6 @@
 import time
 import datetime
-from tkinter import filedialog
+from tkinter import filedialog 
 from tkinter import *
 import re
 from turtle import position
@@ -8,7 +8,7 @@ import json
 import os
 
 
-def progressBar(iterable, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+def progressBar(iterable, prefix = '', suffix = '', decimals = 1, length = 100, fill = u"\u2588", printEnd = "\r"):
     """
     Call in a loop to create terminal progress bar
     @params:
