@@ -61,11 +61,11 @@ class gisaid_obj(workflow_obj):
         #self.user = input("\nPlease input the user for this report\n--> ")
         self.hsn_dict = {'hsn':[], 'gisaid':[]}
 
-    def compile_fasta(self):
+    def compile_fasta(self, run_id):
         # create the name of the file that will hold the completed fasta data
         # make both destination files for metadata and fasta
         self.file_no = 1
-        date1 = datetime.datetime.today().strftime("%m%d%y")
+        date1 = datetime.datetime.strptime(run_id[7:17], "%Y-%m-%d").strftime("%m%d%y")
         self.folderpath = self.folderpathbase + "/" + date1 + "/"
         if not os.path.exists(self.folderpath):
             os.makedirs(self.folderpath)
@@ -141,8 +141,8 @@ class gisaid_obj(workflow_obj):
             s = ""
         f.close()
 
-    def make_gisaid_file(self):
-        date2 = datetime.datetime.today().strftime("%Y%m%d")
+    def make_gisaid_file(self, run_id):
+        date2 = datetime.datetime.strptime(run_id[7:17], "%Y-%m-%d").strftime("%m%d%y")
         templatefilepath = date2 + "_" + str(self.file_no) + "_sql.xlsx"
         self.gisaid_df.to_excel(self.folderpath + templatefilepath, index=False, header=True)
 

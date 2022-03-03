@@ -38,9 +38,9 @@ def save_csv(df, path, user_selection, lab):
     return
 
 
-def save_epi_csv(df, bad_df, path):
+def save_epi_csv(df, bad_df, path, run_id):
     # get today's date to produce file names
-    today = datetime.datetime.today().strftime("%m%d%y")
+    today = datetime.datetime.strptime(run_id[7:17], "%Y-%m-%d").strftime("%m%d%y")
     filename_df = "KHEL_Variant_" + today + ".csv"
     filename_bad_df = "KHEL_Variant_" + today + "_bad.csv"
 

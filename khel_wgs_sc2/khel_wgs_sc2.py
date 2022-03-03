@@ -3,6 +3,7 @@ import time
 from helpers import run
 
 if __name__ == "__main__":
+    print("="*50, "\nIN LINUX 'khel_wgs_sc2.py' SCRIPT\n" + "="*50)
     try:
         if len(sys.argv) == 1:
             run_id = "windows"

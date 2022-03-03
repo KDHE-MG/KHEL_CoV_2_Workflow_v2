@@ -8,6 +8,7 @@ import os
 class Script_Logger() :
 
     def __init__(self,function_name) -> None:
+        logging.basicConfig(filemode='w')
         self.logger = logging.getLogger(function_name)
         self.logger.setLevel(logging.DEBUG)
 

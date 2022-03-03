@@ -24,7 +24,7 @@ def run_script_6(run_id):
     data_obj.format_df()
 
     # write out the dataframe to excel file
-    data_obj.write_epi_report()
+    data_obj.write_epi_report(run_id)
 
     print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
     time.sleep(2)
