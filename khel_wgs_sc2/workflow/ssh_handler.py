@@ -1,6 +1,5 @@
 import paramiko as pk
 import time
-import sys
 import os
 
 

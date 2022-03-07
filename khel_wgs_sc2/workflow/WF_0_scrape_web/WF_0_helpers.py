@@ -1,7 +1,6 @@
 from ..workflow_obj import workflow_obj
 from workflow.ClearLabsScrapper import ClearLabsApi
 from workflow.logger import Script_Logger
-import json
 import datetime
 import os
 import time

@@ -1,5 +1,3 @@
-import time
-from workflow.ClearLabsScrapper import ClearLabsApi
 from workflow.WF_0_scrape_web.WF_0_helpers import WorkflowObj0
 import json
 import os

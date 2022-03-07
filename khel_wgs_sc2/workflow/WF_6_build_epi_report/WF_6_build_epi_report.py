@@ -1,6 +1,5 @@
 from workflow.WF_6_build_epi_report.WF_6_build_epi_report_helpers import WorkflowObj6
 import time
-import datetime
 
 def run_script_6(run_id):
     # Print welcome message

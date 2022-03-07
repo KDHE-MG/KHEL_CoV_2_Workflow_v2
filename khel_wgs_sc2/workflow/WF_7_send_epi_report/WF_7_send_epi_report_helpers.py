@@ -1,6 +1,5 @@
 from ..workflow_obj import workflow_obj
 from ..ui import get_path
-import sys
 import paramiko as pk
 import time
 

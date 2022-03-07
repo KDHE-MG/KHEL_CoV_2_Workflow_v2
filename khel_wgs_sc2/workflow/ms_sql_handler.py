@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
 import re
-from workflow.ui import progressBar
 import time
 import sys
 import pandas as pd
@@ -75,7 +74,7 @@ class ms_sql_handler():
             df_cols     - Required  : list of column names for supplied list (List[])
         """
         with self.engine.connect() as conn:
-            for i in progressBar(range(len(df_lst)), prefix='Progress:', suffix='Complete', length=50):
+            for i in range(len(df_lst)):
                 df_lst[i] = format_lst(df_lst[i])
                 df_lst_query = "(" + ", ".join(df_lst[i]) + ")"
                 query = f"""INSERT INTO dbo.Run_Stats {df_cols} VALUES {df_lst_query}"""
@@ -95,7 +94,7 @@ class ms_sql_handler():
         with self.engine.connect() as conn:
             # generate a distinct query for every row, where query stores the
             # generic value
-            for i in progressBar(range(len(df_lst)), prefix='Progress:', suffix='Complete', length=50):
+            for i in range(len(df_lst)):
                 # if outside_lab or refresh, we are using full excel file, replace
                 # as needed
                 if full:

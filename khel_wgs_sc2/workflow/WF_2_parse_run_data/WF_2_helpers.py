@@ -19,8 +19,6 @@ class WorkflowObj2(workflow_obj):
 
 
     def get_info_from_json(self, runId):
-        # TODO read in all data from json into format seen below
-        # hint - check ui for data structure example
         self.log.write_log("get_info_from_json","runing")
 
         run_data, self.machine_num, self.wgs_run_date, \

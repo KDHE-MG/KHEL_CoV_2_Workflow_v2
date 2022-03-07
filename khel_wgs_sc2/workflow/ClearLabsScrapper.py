@@ -1,15 +1,10 @@
 import json
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import time 
-import sys
-import os
 
 
 class ClearLabsApi():

@@ -1,4 +1,3 @@
-import time
 from workflow.WF_8_sync_network.WF_8_helpers import WorkflowObj8
 
 def run_script_8():

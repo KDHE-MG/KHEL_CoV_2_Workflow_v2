@@ -1,6 +1,5 @@
 from ..workflow_obj import workflow_obj
-from ..reader import get_pandas, read_txt # TODO get_pandas no longer needed
-from ..ui import get_path
+from ..reader import read_txt
 from ..formatter import add_cols, format_hsn_col
 import datetime
 import cx_Oracle as co
