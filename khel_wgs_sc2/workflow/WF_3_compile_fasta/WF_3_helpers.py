@@ -125,6 +125,8 @@ class WorkflowObj3(workflow_obj):
         # attempt to connect to database
         super().setup_db()
         df_lst = self.df.values.astype(str).tolist()
+        #print("pushing to run_stats")
+        #print(df_lst)
         self.db_handler.lst_ptr_push(df_lst=df_lst, query=self.write_query_tbl2)
 
     def delete_compress_fasta(self, runID):

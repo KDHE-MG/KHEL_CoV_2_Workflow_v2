@@ -76,9 +76,9 @@ class WorkflowObj5(workflow_obj):
             df1=all_time_df_qc,
             df2=self.df_results,
             df1_drop=['ID_Table_2', 'platform', 'percent_cvg', 'avg_depth',
-            'total_ns', 'qc_snpclusters_status', 'qc_overall_status', 'path_to_fasta'],
+            'total_ns', 'qc_snpclusters_status', 'qc_overall_status', 'path_to_fasta', 'position'],
             df_final_drop=['wgs_run_date', 'machine_num', 'position', 'day_run_num'],
-            join_lst=["hsn", "wgs_run_date", "machine_num", "position", "day_run_num"],
+            join_lst=["hsn", "wgs_run_date", "machine_num", "day_run_num"],
             join_type='left')
 
         df_results_final_lst = df_results_final.values.astype(str).tolist()

@@ -68,6 +68,7 @@ class WorkflowObj4(workflow_obj):
         df.fillna("", inplace=True)
         self.df_qc = df[self.nc_qc_cols_lst]
         self.df_results = df[self.nc_results_cols_lst]
+        #print(self.df_results)
         self.log.write_log("get_nextcalde_dfs","complete")
 
     def database_push(self):
@@ -77,17 +78,18 @@ class WorkflowObj4(workflow_obj):
         self.log.write_log("database_push","connect to db successful")
         df_qc_update_lst = self.df_qc.values.astype(str).tolist()
         self.log.write_log("database_push","Pushing information to Run Stats table")
-        self.db_handler.lst_ptr_push(df_lst=df_qc_update_lst, query=self.write_query_tbl2)
+        #self.db_handler.lst_ptr_push(df_lst=df_qc_update_lst, query=self.write_query_tbl2)
         all_time_df_qc = self.db_handler.sub_read(query=self.read_query_tbl2)
-        
+
         df_results_final = merge_dataframes(\
             df1=all_time_df_qc, \
             df2=self.df_results, \
-            df1_drop=['ID_Table_2', 'percent_cvg', 'avg_depth', 'total_ns'], \
-            df_final_drop=['wgs_run_date', 'machine_num', 'position', 'day_run_num'], \
-            join_lst=["hsn", "wgs_run_date", "machine_num", "position", "day_run_num"], \
-            join_type='inner')
-
+            df1_drop=['ID_Table_2', 'percent_cvg', 'avg_depth', 'total_ns', 'position'], \
+            df_final_drop=['wgs_run_date', 'machine_num', 'day_run_num', 'position'], \
+            join_lst=["hsn", "wgs_run_date", "machine_num","day_run_num"], \
+            join_type='left')
+        #print("final dataframe")
+        #print(df_results_final)
         df_results_final_lst = df_results_final.values.astype(str).tolist()
         if len(df_results_final_lst) == 0:
             self.log.write_warning("database_push","Nextclade data from this run has likely already been pushed to the database!")
@@ -95,6 +97,7 @@ class WorkflowObj4(workflow_obj):
                 \nNextclade data from this run has likely already been pushed to the database!\
                 \n-------------------------------------------------------------------------------------------------------------------")
         self.log.write_log("database_push","Updating rows in the results table")
+
         self.db_handler.lst_ptr_push(df_lst=df_results_final_lst, query=self.write_query_tbl1)
         self.log.write_log("database_push","Completed")
 

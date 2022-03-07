@@ -483,7 +483,7 @@
         "write_query_tbl2": [
             "UPDATE dbo.Run_Stats",
             "SET path_to_fasta = '{5}'",
-            "WHERE hsn = {0} AND wgs_run_date = CAST('{4}' AS DATE) AND machine_num = {1} AND position = {2} AND day_run_num = {3}"
+            "WHERE hsn = {0} AND wgs_run_date = CAST('{4}' AS DATE) AND machine_num = {1}  AND day_run_num = {3}"
         ],
         "add_col_lst": [
             "hsn",
@@ -555,7 +555,7 @@
         "write_query_tbl2": [
             "UPDATE dbo.Run_Stats",
             "SET total_ns = {5}, qc_snpclusters_status = '{6}', qc_overall_status = '{7}'",
-            "WHERE hsn = {0} AND wgs_run_date = CAST('{1}' AS DATE) AND machine_num = {2} AND position = {3} AND day_run_num = {4}"
+            "WHERE hsn = {0} AND wgs_run_date = CAST('{1}' AS DATE) AND machine_num = {2} AND day_run_num = {4}"
         ],
         "write_query_tbl1": [
             "UPDATE results",

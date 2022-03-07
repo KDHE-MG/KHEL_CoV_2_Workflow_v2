@@ -9,16 +9,16 @@ if __name__ == "__main__":
             run_id = "windows"
         else:
             run_id = str(sys.argv[1])
-            # call to main script
+           # call to main script
             print("this is the run ID "+run_id)
         run(run_id)
     except Exception as e:
         print(e)
         time.sleep(500)
-    # try:
-    #     run_id = "BB1L13.2022-02-28.01"
-    #     run(run_id)
-    # except Exception as e:
-    #     print(e)
-    #     time.sleep(400)
+    #try:
+    #    run_id = "BB1L12.2022-12-28.02"
+    #    run(run_id)
+    #except Exception as e:
+    #    print(e)
+    #    time.sleep(400)
 
