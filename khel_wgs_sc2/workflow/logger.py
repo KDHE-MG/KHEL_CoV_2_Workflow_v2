@@ -25,8 +25,8 @@ class Script_Logger() :
     def start_log(self, description):
         self.logger.debug(description)
 
-    def write_log (self,s_command=None, info=None ):
-        self.logger.info("Function "+s_command+" was called with this description"+info)
+    def write_log (self,s_command="", info="" ):
+        self.logger.info("Function "+s_command+" was called with this description:\n-->"+info)
     
     def write_warning(self,s_command="",issue=""):
-        self.logger.warning("Function "+s_command+ "had this issue "+issue)
+        self.logger.warning("Function "+s_command+ " had this issue:\n-->"+issue)
