@@ -78,7 +78,7 @@ class ClearLabsApi():
 		
 		#selecting download all fasta and fastaq files
 		#self.driver.find_element(By.CSS_SELECTOR,"div.sc-1n4kxe3-1:nth-child(3)").click() 
-		self.driver.find_element(By.XPATH,"//*[@id=\"app\"]/div/div[3]/div[1]/div[1]/div/header/section/div/div[2]/div/div[3]").click()
+		self.driver.find_element(By.XPATH,"/html/body/div[2]/div/div[3]/div[1]/div[1]/div/header/section/div/div[3]/div/div[3]").click()
 
 
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 	s = ClearLabsApi("")
 	s.login("https://wgs.app.clearlabs.com/login","","")
 
-	q= s.find_runs("BB1L")
+	q= s.find_runs("BB1L12")
 
 	s.driver.close()
 
