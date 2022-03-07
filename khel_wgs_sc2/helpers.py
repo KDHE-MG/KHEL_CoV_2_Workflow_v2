@@ -63,7 +63,7 @@ def run(run_id):
             run_script_6(run_id)
             run_gisaid(run_id)
             #run_gisaid_submit(run_id)
-
+            #run_epi_isl()
            
             # TODO setup thread pooling to reduce resource
             # requirements

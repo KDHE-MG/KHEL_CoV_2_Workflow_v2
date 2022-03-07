@@ -67,12 +67,12 @@ class ClearLabsApi():
 
 		print("download started")
 
-		self.driver.find_element(By.ID,"cl-button-menu-toggle-download").click() # clikc on download
+		self.driver.find_element(By.ID,"cl-button-menu-toggle-icon-assets--file--download").click() # clikc on download
 
 		
 		#selecting download all fasta and fastaq files
 		#self.driver.find_element(By.CSS_SELECTOR,"div.sc-1n4kxe3-1:nth-child(3)").click() 
-		self.driver.find_element(By.XPATH,"//*[@id=\"app\"]/div/div[3]/div[1]/div[1]/div/header/div[2]/div/div/div/div[3]/div/div[3]").click()
+		self.driver.find_element(By.XPATH,"//*[@id=\"app\"]/div/div[3]/div[1]/div[1]/div/header/section/div/div[2]/div/div[3]").click()
 
 
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
@@ -130,11 +130,12 @@ def parse_run_data(run_html):
 
 	for item in run_page.find_all("div", class_="sc-4fik4j-0 dRNzHS sc-1cxzq9f-0 iShsHQ"):
 	#[position,sampleID, type of analysis, se_coverage,assembly_coverage]
+		if item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text != "—":
+			#print(item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text)
+			sample_info[item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text] = [ item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 dPugdN").text ,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslc").text, item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsgA").text,  item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsmp").text]
 
-		sample_info[item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text] = [ item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 dPugdN").text ,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslc").text, item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsgA").text,  item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsmp").text]
 
-
-
+	#print(sample_info)
 	return sample_info
 
 
