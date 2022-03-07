@@ -52,14 +52,14 @@ def run(run_id):
             # run_script_0 will also download the FASTA/Q files for use later.  It MUST finish execution
             # before anything else starts
             lock_file = open("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt", "w")
-            #run_script_0(run_id)
+            run_script_0(run_id)
 
-            #run_script_0_5(run_id)
-            #run_script_1(run_id)
-            #run_script_2(run_id)
-            #run_script_3(run_id)
-            #run_script_4(run_id)
-            #run_script_5(run_id)
+            run_script_0_5(run_id)
+            run_script_1(run_id)
+            run_script_2(run_id)
+            run_script_3(run_id)
+            run_script_4(run_id)
+            run_script_5(run_id)
             run_script_6(run_id)
             run_gisaid(run_id)
             #run_gisaid_submit(run_id)
