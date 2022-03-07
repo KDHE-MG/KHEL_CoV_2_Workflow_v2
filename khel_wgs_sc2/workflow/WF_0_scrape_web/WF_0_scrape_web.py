@@ -26,8 +26,9 @@ def run_script_0(run_ids):
     with open (abs_path,"w") as j_dump:
         run_info = json.dumps(run_info)
         j_dump.write(run_info)
+    
+    data_obj.close_conns()
 
-	
     print("\n================================\nSUCCESS - END OF SCRIPT\n================================\n\n")
 
 #return run file location

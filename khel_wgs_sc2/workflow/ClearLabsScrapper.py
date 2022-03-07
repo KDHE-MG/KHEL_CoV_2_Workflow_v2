@@ -105,6 +105,10 @@ def parse_run_data(run_html):
 	return sample_info
 
 
+def close_conns(self):
+	self.driver.quit()
+
+
 
 
 	

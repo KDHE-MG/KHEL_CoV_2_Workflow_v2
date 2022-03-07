@@ -74,7 +74,8 @@ class WorkflowObj0(workflow_obj):
             self.log.write_log("Download Wait","Waiting on Download to finish")
 
     
-
+    def close_conns(self):
+        self.scrapper_obj.close_conns()
 
 
 
