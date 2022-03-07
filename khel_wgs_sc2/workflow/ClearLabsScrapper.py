@@ -59,7 +59,7 @@ class ClearLabsApi():
 		time.sleep(2)
 
 		run_sample_info[runIDs]=parse_run_data(self.driver.page_source)
-
+		
 		self.download_fasta(run_sample_info[runIDs])
 
 		self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click()
@@ -131,15 +131,17 @@ def parse_run_data(run_html):
 	#finds all samples
 
 	#run_samples= bs.find_all("div", class_="sc-i7x0dw-0 fFrize sc-10cusfd-0 fTCUMn")
-
+	
 	sample_info={}
-
-	for item in run_page.find_all("div", class_="sc-4fik4j-0 kvrlUi sc-1d58pfg-0 zGyGo"):
+	#for item in run_page.find_all("div", class_="sc-4fik4j-0 kvrlUi sc-1d58pfg-0 zGyGo"):
+	for item in run_page.find_all("div", class_="sc-4fik4j-0 eKzxwl sc-1d58pfg-0 somVH"):
+	
 	#[position,sampleID, type of analysis, se_coverage,assembly_coverage]
-		if item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text != "—":
+		#if item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text != "—":
+		if item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text != "—":
 			#print(item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text)
 			#hsn: postion,hsn,analysus, seq cov, assem covm 
-			sample_info[item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text] = [ item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 eMqSuI").text ,item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text,item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyoqaV").text, item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopSJ").text,  item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyoqcg").text]
+			sample_info[item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text] = [ item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 feWgGX").text ,item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text,item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIsK").text, item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIjm").text,  item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIrz").text]
 
 
 	#print(sample_info)
