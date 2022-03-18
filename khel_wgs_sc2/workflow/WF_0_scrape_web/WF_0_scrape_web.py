@@ -5,7 +5,7 @@ import os
 
 
 def run_script_0(run_ids):
-    print("\n================================\nScrap Web Script\n================================\n\n")
+    print("\n================================\nScrape Web Script\n================================\n\n")
     
     #creating WorkflowObj
     data_obj = WorkflowObj0()
@@ -13,7 +13,6 @@ def run_script_0(run_ids):
     data_obj.get_json()
 
     #save run info into var, while downloading fasta files for each run id supplied
-    
     run_info=data_obj.scrape(run_ids)
     
 

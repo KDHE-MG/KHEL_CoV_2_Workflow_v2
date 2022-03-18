@@ -10,6 +10,7 @@ if __name__ == "__main__":
         else:
             run_id = str(sys.argv[1])
             # call to main script
+            print("this is the run ID "+run_id)
         run(run_id)
     except Exception as e:
         print(e)

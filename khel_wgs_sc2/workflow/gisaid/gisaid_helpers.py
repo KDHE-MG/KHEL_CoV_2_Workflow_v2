@@ -1,5 +1,5 @@
 from ..workflow_obj import workflow_obj
-from ..ui import progressBar
+#from ..ui import progressBar
 from ..reader import read_txt
 import os
 import datetime
@@ -123,7 +123,7 @@ class gisaid_obj(workflow_obj):
         print("\nBuilding the all.fasta file...\n")
         s = ""
         f = open(self.folderpath + self.filepath, "w")
-        for fasta in progressBar(self.file_lst, prefix='Progress', suffix='Complete', length=50):
+        for fasta in self.file_lst:
             curr_file = open(fasta, "r")
             file_contents = curr_file.readlines()
             curr_file.close()
