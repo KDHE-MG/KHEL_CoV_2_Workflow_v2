@@ -77,7 +77,9 @@ class ClearLabsApi():
 		#sleep can be removed but waiting for file to be downloaded 
 		time.sleep(5)
 		
-
+		
+	def  close_conns(self):
+		self.driver.quit()
 
 def parse_run_data(run_html):
 
@@ -100,8 +102,6 @@ def parse_run_data(run_html):
 	return sample_info
 
 
-def close_conns(self):
-	self.driver.quit()
 
 
 

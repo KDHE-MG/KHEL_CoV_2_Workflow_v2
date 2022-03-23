@@ -69,7 +69,7 @@ class WorkflowObj0(workflow_obj):
                 self.log.write_log("Download Wait","File Finshed Downloading")
                 break
                 
-            time.sleep(5)
+            time.sleep(10)
             self.log.write_log("Download Wait","Waiting on Download to finish")
 
     
