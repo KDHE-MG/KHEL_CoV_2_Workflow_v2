@@ -87,9 +87,7 @@ class ClearLabsApi():
 		while True:
 			try:
 				time.sleep(30)
-				download_percentage = self.driver.execute_script(
-					"return document.querySelector('downloads-manager').shadowRoot.querySelector('#downloadsList downloads-item').shadowRoot.querySelector('#progress').value"
-				)
+				download_percentage = self.driver.find_element_by_css_selector("#description").text
 				with open(file_name, "a") as f:
 					f.write("The file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
 				if int(download_percentage) == 100:
