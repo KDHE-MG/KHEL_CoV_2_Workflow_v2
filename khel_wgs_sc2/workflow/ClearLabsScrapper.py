@@ -6,11 +6,13 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import time 
 import datetime
+from pathlib import Path
 
 
 class ClearLabsApi():
 
 	def __init__(self, DLoad_Path):
+		self.DLoad_Path = DLoad_Path
 		opt = Options()
 		opt.add_experimental_option("prefs", {
 		  "download.default_directory": DLoad_Path,
@@ -19,7 +21,7 @@ class ClearLabsApi():
 		  "safebrowsing_for_trusted_sources_enabled": False,
 		  "safebrowsing.enabled": False})
 
-		opt.headless= True
+		#opt.headless= True
 #chrome must be install on device runing this
 #we should inculde the chrome binarys into resourses
 		ChromeDriverPathSer=Service("/home/ssh_user/repos/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
@@ -52,7 +54,7 @@ class ClearLabsApi():
 
 		run_sample_info[runIDs]=parse_run_data(self.driver.page_source)
 
-		self.download_fasta()
+		self.download_fasta(run_sample_info[runIDs])
 
 		self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click()
 			
@@ -61,7 +63,7 @@ class ClearLabsApi():
 
 
 
-	def download_fasta(self):
+	def download_fasta(self, dict):
 
 		print("download started")
 
@@ -84,17 +86,32 @@ class ClearLabsApi():
 		# clear the file for this run
 		with open(file_name, 'w') as f:
 			f.write("")
+
+		# estimate size of file to be downloaded
+		full_size = 0
+		for hsn in dict:
+			full_size += (int(dict[hsn][3][:-1]) * 0.02626647847)
+		full_size = int(full_size) # will be in Mb
+
+		# find new, downloading file
+		run_date = datetime.datetime.strptime(self.DLoad_Path.split("/")[-1].split(".")[0], "%m%d%y")
+		machine_num = self.DLoad_Path.split("/")[-1].split(".")[1]
+		day_run_num = self.DLoad_Path.split("/")[-1].split(".")[2]
+		run_id = "BB1L" + machine_num + "." + run_date.strftime("%Y-%m-%d") + ".0" + str(int(day_run_num))
+		d_file_name = self.DLoad_Path + "/" + run_id + ".all.tar.crdownload"
+
+
 		while True:
 			try:
 				time.sleep(30)
-				download_percentage = self.driver.execute_script(
-                "return document.querySelector('downloads-manager').shadowRoot.querySelector('#downloadsList downloads-item').shadowRoot.querySelector('#progress').value")
-				# e = self.driver.find_element_by_id('progress')
-				# download_percentage = e.get_attribute("value")
+				# check file size
+				try:
+					sz = (Path(d_file_name).stat().st_size)/1000000 # divide by 10^6 to get Mb from bytes
+				except Exception:
+					break
+				download_percentage = round((sz/full_size)*100, 2)
 				with open(file_name, "a") as f:
 					f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
-				if int(download_percentage) == 100:
-					break
 			except Exception as e:
 				pass
 		

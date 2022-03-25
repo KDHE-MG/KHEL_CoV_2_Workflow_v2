@@ -34,7 +34,7 @@ class WorkflowObj0(workflow_obj):
 
         #create webdriver object
         self.log.write_log("Scrape - Scrapper Obj","Initializing Scrapping Object")
-        self.scrapper_obj = ClearLabsApi(self.fasta_file_download_path+"/"+runIds)
+        self.scrapper_obj = ClearLabsApi(self.fasta_file_download_path+runIds)
 
         self.log.write_log("Scrape - Login", "Loging into clearlabs")
         #Log into ClearLabs
