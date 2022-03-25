@@ -21,7 +21,7 @@ class ClearLabsApi():
 		  "safebrowsing_for_trusted_sources_enabled": False,
 		  "safebrowsing.enabled": False})
 
-		#opt.headless= True
+		opt.headless= True
 #chrome must be install on device runing this
 #we should inculde the chrome binarys into resourses
 		ChromeDriverPathSer=Service("/home/ssh_user/repos/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
