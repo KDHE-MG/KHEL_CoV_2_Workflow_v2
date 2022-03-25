@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import time 
+import datetime
 
 
 class ClearLabsApi():
@@ -74,6 +75,28 @@ class ClearLabsApi():
 		#self.driver.find_element(By.XPATH,"//div[contains(@class,'sc-6wkgny-0 sc-1n4kxe3-1 iwyGgY kBSIHC')]").click() #clicks the download all fasta button but not great becuase only finds the first element not specfifc enough should be bulit to be more robust
 
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
+		
+		# check the progress of the file download
+		self.driver.execute_script("window.open()")
+		self.driver.switch_to_window(self.driver.window_handles[-1])
+		self.driver.get("chrome://downloads")
+		file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
+		# clear the file for this run
+		with open(file_name, 'w') as f:
+			f.write("")
+		while True:
+			try:
+				time.sleep(30)
+				download_percentage = self.driver.execute_script(
+					"return document.querySelector('downloads-manager').shadowRoot.querySelector('#downloadsList downloads-item').shadowRoot.querySelector('#progress').value"
+				)
+				with open(file_name, "a") as f:
+					f.write("The file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
+				if int(download_percentage) == 100:
+					break
+			except:
+				pass
+		
 		#sleep can be removed but waiting for file to be downloaded 
 		time.sleep(5)
 		
