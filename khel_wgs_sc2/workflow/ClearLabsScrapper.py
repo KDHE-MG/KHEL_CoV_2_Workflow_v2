@@ -79,9 +79,6 @@ class ClearLabsApi():
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
 		
 		# check the progress of the file download
-		self.driver.execute_script("window.open()")
-		self.driver.switch_to.window(self.driver.window_handles[-1])
-		self.driver.get("chrome://downloads")
 		file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
 		# clear the file for this run
 		with open(file_name, 'w') as f:
