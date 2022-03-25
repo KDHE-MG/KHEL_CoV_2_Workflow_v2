@@ -110,7 +110,7 @@ class ClearLabsApi():
 				except Exception:
 					break
 				download_percentage = round((sz/full_size)*100, 2)
-				with open(file_name, "a") as f:
+				with open(file_name, "w") as f:
 					f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
 			except Exception as e:
 				pass
