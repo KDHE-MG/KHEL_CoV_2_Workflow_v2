@@ -78,7 +78,7 @@ class ClearLabsApi():
 		
 		# check the progress of the file download
 		self.driver.execute_script("window.open()")
-		self.driver.switch_to_window(self.driver.window_handles[-1])
+		self.driver.switch_to.window(self.driver.window_handles[-1])
 		self.driver.get("chrome://downloads")
 		file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
 		# clear the file for this run
