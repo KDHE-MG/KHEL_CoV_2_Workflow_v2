@@ -19,7 +19,7 @@ class ClearLabsApi():
 		  "safebrowsing_for_trusted_sources_enabled": False,
 		  "safebrowsing.enabled": False})
 
-		opt.headless= True
+		#opt.headless= True
 #chrome must be install on device runing this
 #we should inculde the chrome binarys into resourses
 		ChromeDriverPathSer=Service("/home/ssh_user/repos/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
@@ -87,12 +87,15 @@ class ClearLabsApi():
 		while True:
 			try:
 				time.sleep(30)
-				download_percentage = self.driver.find_element_by_css_selector("#description").text
+				download_percentage = self.driver.execute_script(
+                "return document.querySelector('downloads-manager').shadowRoot.querySelector('#downloadsList downloads-item').shadowRoot.querySelector('#progress').value")
+				# e = self.driver.find_element_by_id('progress')
+				# download_percentage = e.get_attribute("value")
 				with open(file_name, "a") as f:
-					f.write("The file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
+					f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
 				if int(download_percentage) == 100:
 					break
-			except:
+			except Exception as e:
 				pass
 		
 		#sleep can be removed but waiting for file to be downloaded 
