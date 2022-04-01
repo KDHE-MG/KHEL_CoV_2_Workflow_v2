@@ -57,7 +57,6 @@ class WorkflowObj1(workflow_obj):
         self.abs_path = script_dir + rel_path
         with open (self.abs_path) as f:
             hsn = [*json.load(f)[runId_helper]]
-    #check with jonathan
         self.log.write_log("get_intial_demo_df","Creating DF with only HSNs")
 
         self.df_right = pd.DataFrame(hsn, columns=['Sample ID'])
