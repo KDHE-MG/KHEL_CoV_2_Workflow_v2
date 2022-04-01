@@ -48,7 +48,6 @@ class WorkflowObj1(workflow_obj):
     def get_initial_demo_df(self, runId_helper):
         self.log.write_log("get_intital_demo_df","Getting HSN from run_data.json")
         
-        # TODO use run_data keys => list of HSNs, then make df from that
         # column name = 'Sample ID'
         self.log.write_log("get_intial_demo_df","opening json file and dumping HSNs into var")
         #get HSN from json
