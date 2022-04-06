@@ -42,7 +42,7 @@ class ClearLabsApi():
 
 	def find_runs(self,runIDs):
 		#change page to list of run pages
-		self.driver.find_element_by_css_selector('li.sc-cd5qzr-0:nth-child(5) > a:nth-child(1) > span:nth-child(1)').click()
+		self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click() 
 
 		run_sample_info={}
 
@@ -69,12 +69,11 @@ class ClearLabsApi():
 
 		self.driver.find_element(By.ID,"cl-button-menu-toggle-download").click() # clikc on download
 
-		#self.driver.find_element(By.XPATH,"//div[contains(.,'Download All FASTA and FASTQ files')]") 
+		
 		#selecting download all fasta and fastaq files
+		#self.driver.find_element(By.CSS_SELECTOR,"div.sc-1n4kxe3-1:nth-child(3)").click() 
+		self.driver.find_element(By.XPATH,"//*[@id=\"app\"]/div/div[3]/div[1]/div[1]/div/header/div[2]/div/div/div/div[3]/div/div[3]").click()
 
-		self.driver.find_element(By.CSS_SELECTOR,"div.sc-1n4kxe3-1:nth-child(3)").click() 
-
-		#self.driver.find_element(By.XPATH,"//div[contains(@class,'sc-6wkgny-0 sc-1n4kxe3-1 iwyGgY kBSIHC')]").click() #clicks the download all fasta button but not great becuase only finds the first element not specfifc enough should be bulit to be more robust
 
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
 		
@@ -138,15 +137,6 @@ def parse_run_data(run_html):
 
 
 	return sample_info
-
-
-
-
-
-
-	
-
-
 
 
 
