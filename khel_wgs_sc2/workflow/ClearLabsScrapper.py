@@ -131,8 +131,7 @@ def parse_run_data(run_html):
 	for item in run_page.find_all("div", class_="sc-i7x0dw-0 fFrize sc-10cusfd-0 fTCUMn"):
 	#[position,sampleID, type of analysis, se_coverage,assembly_coverage]
 
-		sample_info[item.find(class_="sc-1ibd7ul-0 daFoK sc-10cusfd-1 gLXtVh").text] = [ item.find(class_="sc-1ibd7ul-0 daFoK sc-10cusfd-1 kyGmtC").text ,item.find(class_="sc-1ibd7ul-0 daFoK sc-10cusfd-1 gLXtVh").text,
-		item.find(class_="sc-1ibd7ul-0 daFoK sc-10cusfd-1 gLXuaL").text, item.find(class_="sc-1ibd7ul-0 daFoK sc-10cusfd-1 gLXuaj").text,  item.find(class_="sc-1ibd7ul-0 daFoK sc-10cusfd-1 gLXtZy").text  ]
+		sample_info[item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text] = [ item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 dPugdN").text ,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslc").text, item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsgA").text,  item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsmp").text]
 
 
 
