@@ -44,6 +44,12 @@ class WorkflowObj0(workflow_obj):
         #extract run info and download corresponding fastas files
         run_dump= self.scrapper_obj.find_runs(runId)
 
+        #check if rundata is empty
+        for key in [*run_dump]:
+            if len(run_dump[key]) <= 1:
+                    self.log.write_warning("Run_Info","Check ClearLabsScrapper Class Finder")
+                    raise ValueError("Was not able to gather run info, CHECK CLEAR LABS SCRAPPER PY")
+
         #checking that compress file has downloaded before closing browswer
         self.log.write_log("Scrape Download Wait","Waiting for download to finish")
         self.download_wait(runId, runIds)

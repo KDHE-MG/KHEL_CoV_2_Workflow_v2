@@ -4,7 +4,7 @@ import time
 import sys
 import pandas as pd
 import re
-
+from workflow.logger import Script_Logger
 
 
 class ms_sql_handler():
@@ -19,6 +19,8 @@ class ms_sql_handler():
         self.avg_depth_cutoff = obj.avg_depth_cutoff
         self.percent_cvg_cutoff = obj.percent_cvg_cutoff
         self.engine = None
+        self.log = Script_Logger("SQL_Handler")
+        self.log.start_log("Starting")
 
     # methods
     # Create
@@ -104,7 +106,8 @@ class ms_sql_handler():
                     df_ctr = 0
                     while element < len(df_table_col_lst):
                         x = str(df.iloc[i, df_ctr])
-                        if x == "nan" or x == 'None' or x == "extraction only, WGS":
+                        if x == "nan" or x == "None" or x == "extraction only, WGS":
+                            self.log.write_log("removing None/nan","This is being removed "+str(element))
                             del df_table_col_lst[element]
                             df_ctr += 1
                         else:
