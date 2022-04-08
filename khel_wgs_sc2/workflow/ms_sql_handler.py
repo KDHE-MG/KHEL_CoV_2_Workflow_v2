@@ -107,10 +107,11 @@ class ms_sql_handler():
                     while element < len(df_table_col_lst):
                         x = str(df.iloc[i, df_ctr])
                         if x == "nan" or x == "None" or x == "extraction only, WGS":
-                            self.log.write_log("removing None/nan","This is being removed "+str(element))
+                            self.log.write_warning("removing None/nan","This is being removed   "+x)
                             del df_table_col_lst[element]
                             df_ctr += 1
                         else:
+                            self.log.write_log("This is being kept","Kepping this  "+x)
                             element += 1
                             df_ctr += 1
                     # now, create the col list
