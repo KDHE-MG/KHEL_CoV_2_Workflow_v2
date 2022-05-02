@@ -12,6 +12,7 @@ from workflow.WF_9_send_fastas.WF_9_send_fastas import run_script_9
 from workflow.epi_isl.epi_isl import run_epi_isl
 from workflow.gisaid.gisaid import run_gisaid
 from workflow.outside_lab.outside_lab import run_outside_lab
+from workflow.gisaid_submit.gisaid_submit import run_gisaid_submit
 # TODO bokeh import not working
 #from workflow.plotter.plotter import run_plotter
 import pyodbc
@@ -50,8 +51,8 @@ def run(run_id):
             # run_script_0 will perform web-scraping and save information in run_data.json file
             # run_script_0 will also download the FASTA/Q files for use later.  It MUST finish execution
             # before anything else starts
-            lock_file = open("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt", "w")
-            run_script_0(run_id)
+            #lock_file = open("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt", "w")
+            #run_script_0(run_id)
 
             run_script_0_5(run_id)
             run_script_1(run_id)
@@ -61,8 +62,9 @@ def run(run_id):
             run_script_5(run_id)
             run_script_6(run_id)
             run_gisaid(run_id)
+            #run_gisaid_submit(run_id)
 
-
+           
             # TODO setup thread pooling to reduce resource
             # requirements
 
