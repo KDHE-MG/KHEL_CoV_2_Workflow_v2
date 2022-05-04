@@ -38,6 +38,8 @@ class workflow_obj(ABC):
                 workflow = 'refresh'
             elif wf == -6:
                 workflow = 'plotter'
+            elif wf == -7:
+                workflow= 'gisaid_submit'    
 
         working_static_cache = full_static_cache[workflow]
         gen_static_cache = full_static_cache['all_workflows']

@@ -23,7 +23,7 @@ class gisaid_submit_obj(workflow_obj):
 
 
     def get_json(self):
-        super().get_json(self.id) #what does this need besides    
+        super().get_json(-7) #what does this need besides    
         self.log.write_log("get_json",self.id+" passed")
         
 
