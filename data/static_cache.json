@@ -994,6 +994,7 @@
             "WHERE hsn = {0}"
         ]
     },
+    "gisaid_submit": {},
     "outside_lab": {
         "dbo_tbl_1_cols": [
             "hsn",

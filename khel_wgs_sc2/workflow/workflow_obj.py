@@ -138,6 +138,7 @@ class workflow_obj(ABC):
                 self.port = working_private_cache['port']
                 self.sftp_user = working_private_cache['sftp_user']
                 self.sftp_pwd = working_private_cache['sftp_pwd']
+            
             if wf == -4:
                 self.folder_path_base = working_private_cache['folder_path_base']
             if wf == 6:
@@ -151,6 +152,13 @@ class workflow_obj(ABC):
                 self.base_path = working_private_cache['base_path']
             if wf == 9:
                 self.base_path = working_private_cache['base_path']
+            if wf == -7:
+                self.user = working_private_cache['user']
+                self.user_client_ID = working_private_cache['user_client_ID']
+                self.token_path = working_private_cache['token_path']
+                self.current_gis_path = working_private_cache['current_gis_path']
+                self.log_path = working_private_cache['log_path']
+                
 
         except KeyError:
             print("Looks like this is your first time using the script!")
