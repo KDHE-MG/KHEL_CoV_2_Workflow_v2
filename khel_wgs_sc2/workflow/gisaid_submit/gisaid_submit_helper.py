@@ -46,7 +46,7 @@ class gisaid_submit_obj(workflow_obj):
                 date_2 = [date[i:i+2] for i in range(0,len(date),2)]
               
                 #create metadata upload 
-                bulk_metadata = self.create_bulk_upload_template(date_2,self.current_gis_path+"/20"+date_2[2]+date_2[0]+date_2[1]+f_num+"_sql.xlsx",self.current_gis_path,f_num)
+                bulk_metadata = self.create_bulk_upload_template(date_2,self.current_gis_path+"/"+date_2[0]+date_2[1]+date_2[2]+f_num+"_sql.xlsx",self.current_gis_path,f_num)
 
 
        
