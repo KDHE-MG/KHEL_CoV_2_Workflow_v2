@@ -71,6 +71,7 @@ class gisaid_obj(workflow_obj):
             os.makedirs(self.folderpath)
         self.filepath = date1 + "_" + str(self.file_no) + ".fasta"
         while os.path.exists(self.folderpath + self.filepath):
+            print("=========Creating new file number========")
             self.file_no += 1
             self.filepath = date1 + "_" + str(self.file_no) + ".fasta"
 
@@ -122,7 +123,7 @@ class gisaid_obj(workflow_obj):
         # make the fasta file
         print("\nBuilding the all.fasta file...\n")
         s = ""
-        f = open(self.folderpath + self.filepath, "w")
+        f = open(self.folderpath + self.filepath, "w+")
         for fasta in self.file_lst:
             curr_file = open(fasta, "r")
             file_contents = curr_file.readlines()

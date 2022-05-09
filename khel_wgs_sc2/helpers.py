@@ -51,8 +51,8 @@ def run(run_id):
             # run_script_0 will perform web-scraping and save information in run_data.json file
             # run_script_0 will also download the FASTA/Q files for use later.  It MUST finish execution
             # before anything else starts
-            #lock_file = open("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt", "w")
-            #run_script_0(run_id)
+            lock_file = open("/home/ssh_user/WGS_Sequencing_COVID/lock_file.txt", "w")
+            run_script_0(run_id)
 
             run_script_0_5(run_id)
             run_script_1(run_id)
