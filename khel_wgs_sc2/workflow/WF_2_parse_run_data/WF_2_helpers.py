@@ -105,7 +105,7 @@ class WorkflowObj2(workflow_obj):
             self.db_handler.lst_push(df_lst=df_qc_lst, df_cols=df_qc_cols_query)
             self.log.write_log("database_push","db lst push compelte")
         except Exception as e:
-            self.log.write_warning("database_push",e)
+            self.log.write_warning("database_push",str(e))
             #print(e)
             raise ValueError("\n-------------------------------------------------------------------------------------------------------------------\
                 \nEntry already exists in the database! The clearlabs data for this run has likely already been added to the database\

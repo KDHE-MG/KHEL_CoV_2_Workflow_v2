@@ -583,9 +583,7 @@
             "taxon": "Sequence name",
             "Lineage": "lineage_id",
             "lineage": "lineage_id",
-            "pangolin version": "pangolin_version",
-            "pangoLEARN version": "pango_learn_version",
-            "pangoLEARN_version": "pango_learn_version"
+            "pangolin version": "pangolin_version"
         },
         "full_lst": [
             "hsn",
@@ -594,8 +592,7 @@
             "position",
             "day_run_num",
             "lineage_id",
-            "pangolin_version",
-            "pango_learn_version"
+            "pangolin_version"
         ],
         "add_col_lst": [
             "hsn",
@@ -606,7 +603,7 @@
         ],
         "write_query_tbl1": [
             "UPDATE results",
-            "SET results.lineage_id = '{1}', results.pangolin_version = '{2}', results.pango_learn_version = CAST('{3}' AS DATE)",
+            "SET results.lineage_id = '{1}', results.pangolin_version = '{2}'",
             "FROM dbo.Results results",
             "WHERE (results.hsn = {0}",
             "AND results.lineage_id IS NULL",
