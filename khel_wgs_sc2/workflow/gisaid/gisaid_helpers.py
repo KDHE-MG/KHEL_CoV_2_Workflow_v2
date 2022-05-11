@@ -69,12 +69,22 @@ class gisaid_obj(workflow_obj):
         self.folderpath = self.folderpathbase + "/" + date1 + "/"
         if not os.path.exists(self.folderpath):
             os.makedirs(self.folderpath)
-        self.filepath = date1 + "_" + str(self.file_no) + ".fasta"
-        while os.path.exists(self.folderpath + self.filepath):
-            print("=========Creating new file number========")
-            self.file_no += 1
-            self.filepath = date1 + "_" + str(self.file_no) + ".fasta"
+        
 
+        if os.path.exists(self.folderpathbase+"/"+ date1+".txt"):
+            print("=========Creating new file number========")
+            gisaid_mem = open(self.folderpathbase+"/"+ date1+".txt", "r+")
+            #now read the file and find the largers number and set it self.file_no
+            self.file_no=len(gisaid_mem.readlines())+1
+            #then write this number to mem file
+            gisaid_mem.write(str(self.file_no)+"\n")
+            gisaid_mem.close()
+        else:
+            gisaid_mem = open(self.folderpathbase+"/"+ date1+".txt", "w+")
+            gisaid_mem.write(str(self.file_no)+"\n")
+            gisaid_mem.close()
+
+        self.filepath = date1 + "_" + str(self.file_no) + ".fasta"    
         # get list of fasta files
         self.file_lst = self.gisaid_start["path_to_fasta"].values.tolist()
 
