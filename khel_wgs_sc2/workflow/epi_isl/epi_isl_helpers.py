@@ -19,7 +19,8 @@ class epi_isl_obj(workflow_obj):
     def get_epi_isl_dfs(self):
         # open demo path --> pandas dataframe
         print("\nUse the following window to open the epi_isl results workbook...\n")
-        epi_isl_path = get_path()
+        #epi_isl_path = get_path()
+        epi_isl_path = input("Please enter the path to epi tsv file :  ")
         self.df = get_pandas(epi_isl_path, self.id, self.id, '\t')
         print("Renaming columns...")
         self.df = self.df.rename(columns=self.rename_epi_isl_cols_lst)
