@@ -66,7 +66,7 @@ class WorkflowObj3(workflow_obj):
                     curr_file = open(self.path + "/" + file, "r")
                     file_contents = curr_file.readlines()
                     curr_file.close()
-                    s += "\n\n"
+                    s += ""
                     for line in file_contents:
                         s += line
                     f.write(s)
