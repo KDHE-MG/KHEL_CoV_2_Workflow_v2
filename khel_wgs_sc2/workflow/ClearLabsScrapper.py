@@ -25,9 +25,10 @@ class ClearLabsApi():
 		  "safebrowsing_for_trusted_sources_enabled": False,
 		  "safebrowsing.enabled": False})
 
-		opt.headless= True
+		#opt.headless= True
 #chrome must be install on device runing this
 #we should inculde the chrome binarys into resourses
+		
 		ChromeDriverPathSer=Service("/home/ssh_user/repos/KHEL_CoV_2_Workflow_v2/resources/chromedriver")
 
 		self.driver = webdriver.Chrome(service=ChromeDriverPathSer,options=opt)
@@ -82,10 +83,10 @@ class ClearLabsApi():
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
 		
 		# check the progress of the file download
-		file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
+		#file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
 		# clear the file for this run
-		with open(file_name, 'w') as f:
-			f.write("")
+		#with open(file_name, 'w') as f:
+		#	f.write("")
 
 		# estimate size of file to be downloaded
 		full_size = 0
@@ -132,11 +133,12 @@ def parse_run_data(run_html):
 
 	sample_info={}
 
-	for item in run_page.find_all("div", class_="sc-4fik4j-0 dRNzHS sc-1cxzq9f-0 iShsHQ"):
+	for item in run_page.find_all("div", class_="sc-4fik4j-0 kvrlUi sc-1d58pfg-0 zGyGo"):
 	#[position,sampleID, type of analysis, se_coverage,assembly_coverage]
-		if item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text != "—":
+		if item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text != "—":
 			#print(item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text)
-			sample_info[item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text] = [ item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 dPugdN").text ,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text,item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslc").text, item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsgA").text,  item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajsmp").text]
+			#hsn: postion,hsn,analysus, seq cov, assem covm 
+			sample_info[item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text] = [ item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 eMqSuI").text ,item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text,item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyoqaV").text, item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopSJ").text,  item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyoqcg").text]
 
 
 	#print(sample_info)
@@ -144,5 +146,16 @@ def parse_run_data(run_html):
 
 
 
+
+if __name__ == "__main__":
+
+	s = ClearLabsApi("")
+	s.login("https://wgs.app.clearlabs.com/login","","")
+
+	q= s.find_runs("BB1L")
+
+	s.driver.close()
+
+	print(q)
 
 
