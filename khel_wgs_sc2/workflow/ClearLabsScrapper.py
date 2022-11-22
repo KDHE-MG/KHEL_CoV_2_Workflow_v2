@@ -1,12 +1,16 @@
 import json
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+import  datetime
 import time 
-import datetime
-from pathlib import Path
+import sys
+import os
 
 
 class ClearLabsApi():
@@ -97,19 +101,19 @@ class ClearLabsApi():
 		d_file_name = self.DLoad_Path + "/" + run_id + ".all.tar.crdownload"
 
 
-		while True:
-			try:
-				time.sleep(30)
+		#while True:
+		#	try:
+		#		time.sleep(30)
 				# check file size
-				try:
-					sz = (Path(d_file_name).stat().st_size)/1000000 # divide by 10^6 to get Mb from bytes
-				except Exception:
-					break
-				download_percentage = round((sz/full_size)*100, 2)
-				with open(file_name, "w") as f:
-					f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
-			except Exception as e:
-				pass
+		#		try:
+		#			sz = (Path(d_file_name).stat().st_size)/1000000 # divide by 10^6 to get Mb from bytes
+		#		except Exception:
+		#			break
+		#		download_percentage = round((sz/full_size)*100, 2)
+		#		with open(file_name, "w") as f:
+		#			f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
+		#	except Exception as e:
+		#		pass
 		
 		#sleep can be removed but waiting for file to be downloaded 
 		time.sleep(5)
