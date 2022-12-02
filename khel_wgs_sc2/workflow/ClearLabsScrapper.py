@@ -11,6 +11,7 @@ import  datetime
 import time 
 import sys
 import os
+from pathlib import Path
 
 
 class ClearLabsApi():
@@ -83,10 +84,10 @@ class ClearLabsApi():
 		self.driver.find_element(By.ID,"cl-button-download-fasta-files-submit").click() # this triggers the ok button after you selected it
 		
 		# check the progress of the file download
-		#file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
+		file_name = "/home/ssh_user/WGS_Sequencing_COVID/run_data/temp.txt"
 		# clear the file for this run
-		#with open(file_name, 'w') as f:
-		#	f.write("")
+		with open(file_name, 'w') as f:
+			f.write("")
 
 		# estimate size of file to be downloaded
 		full_size = 0
@@ -101,20 +102,20 @@ class ClearLabsApi():
 		run_id = "BB1L" + machine_num + "." + run_date.strftime("%Y-%m-%d") + ".0" + str(int(day_run_num))
 		d_file_name = self.DLoad_Path + "/" + run_id + ".all.tar.crdownload"
 
-
-		#while True:
-		#	try:
-		#		time.sleep(30)
+		#used to show download progress
+		while True:
+			try:
+				time.sleep(30)
 				# check file size
-		#		try:
-		#			sz = (Path(d_file_name).stat().st_size)/1000000 # divide by 10^6 to get Mb from bytes
-		#		except Exception:
-		#			break
-		#		download_percentage = round((sz/full_size)*100, 2)
-		#		with open(file_name, "w") as f:
-		#			f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
-		#	except Exception as e:
-		#		pass
+				try:
+					sz = (Path(d_file_name).stat().st_size)/1000000 # divide by 10^6 to get Mb from bytes
+				except Exception:
+					break
+				download_percentage = round((sz/full_size)*100, 2)
+				with open(file_name, "w") as f:
+					f.write("\nThe file is at: " + str(download_percentage) + "%" + " as of " + datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S"))
+			except Exception as e:
+				pass
 		
 		#sleep can be removed but waiting for file to be downloaded 
 		time.sleep(5)
