@@ -59,7 +59,8 @@ class ClearLabsApi():
 		time.sleep(2)
 
 		run_sample_info[runIDs]=parse_run_data(self.driver.page_source)
-		
+		#print("s info")
+		#print(run_sample_info)
 		self.download_fasta(run_sample_info[runIDs])
 
 		self.driver.find_element(By.XPATH,"//a[@href='/lab/runs']").click()
@@ -135,12 +136,13 @@ def parse_run_data(run_html):
 	sample_info={}
 	#for item in run_page.find_all("div", class_="sc-4fik4j-0 kvrlUi sc-1d58pfg-0 zGyGo"):
 	for item in run_page.find_all("div", class_="sc-4fik4j-0 eKzxwl sc-1d58pfg-0 somVH"):
-	
+
 	#[position,sampleID, type of analysis, se_coverage,assembly_coverage]
-		#if item.find(class_="sc-1ydgn5o-0 hPGlkS sc-1d58pfg-1 jyopXL").text != "—":
+		#if item.find(class_=sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text != "—":
 		if item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text != "—":
 			#print(item.find(class_="sc-1ydgn5o-0 ixOnpe sc-1cxzq9f-1 ajslC").text)
 			#hsn: postion,hsn,analysus, seq cov, assem covm 
+			
 			sample_info[item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text] = [ item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 feWgGX").text ,item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIos").text,item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIsK").text, item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIjm").text,  item.find(class_="sc-1ydgn5o-0 mvkvd sc-1d58pfg-1 jYKIrz").text]
 
 
@@ -152,10 +154,10 @@ def parse_run_data(run_html):
 
 if __name__ == "__main__":
 
-	s = ClearLabsApi("")
-	s.login("https://wgs.app.clearlabs.com/login","","")
+	s = ClearLabsApi("/home/ssh_user/030223.13.1")
+	s.login("https://wgs.app.clearlabs.com/login","adrian.lima.garay@accenture.com","ClearLabs@2022")
 
-	q= s.find_runs("BB1L12")
+	q= s.find_runs("BB1L13.2023-03-02.01")
 
 	s.driver.close()
 
