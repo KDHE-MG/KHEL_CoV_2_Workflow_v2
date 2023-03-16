@@ -155,7 +155,7 @@ def parse_run_data(run_html):
 if __name__ == "__main__":
 
 	s = ClearLabsApi("/home/ssh_user/030223.13.1")
-	s.login("https://wgs.app.clearlabs.com/login","adrian.lima.garay@accenture.com","")
+	s.login("https://wgs.app.clearlabs.com/login","","")
 
 	q= s.find_runs("BB1L13.2023-03-02.01")
 
